@@ -1,10 +1,11 @@
-import mongoose from "mongoose";
-import { model,Schema } from "mongoose";
-import { email, string } from "zod";
+import mongoose, { Schema, model } from "mongoose";
 
-const UserSchema =new Schema({
-    email:{type:string,unique:true},
-    password:string
-})
+mongoose.connect("mongodb+srv://krishnasahuwork:krishna22032003k@cluster0.gygsits.mongodb.net/")
 
-export const UserModel = model ("users",UserSchema);
+
+const UserSchema = new Schema({
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+});
+
+export const UserModel = model("User", UserSchema);

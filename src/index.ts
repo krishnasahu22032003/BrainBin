@@ -14,7 +14,11 @@ const requiredbody=z.object({
 const email= req.body.email;
 const password=req.body.password
 UserModel.create({
-    
+    email:email,
+    password:password
+})
+res.json({
+    message:"you are signed in"
 })
 })  
 
@@ -23,3 +27,4 @@ app.post("/api/v1/signin",(req,res)=>{
 
 })
 
+app.listen(3000)
