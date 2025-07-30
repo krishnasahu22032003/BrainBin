@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/krishnasahu22032003/BrainBin#readme",
   "dependencies": {
+    "@types/express": "^5.0.3",
+    "express": "^5.1.0",
     "typescript": "^5.8.3"
   }
 }
