@@ -94,4 +94,26 @@ app.post("/api/v1/content",usermiddleware,async(req,res)=>{
     });
   }
 })
+app.get("/api/v1/content",usermiddleware,async(req,res)=>{
+ try {
+    const userId = req.userId; // added by your middleware
+
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized: No user ID found" });
+    }
+
+    const content = await ContentModel.find({ userId });
+
+    res.status(200).json({
+      success: true,
+      content,
+    });
+  } catch (error) {
+    console.error("Error fetching content:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+})
 app.listen(3000)

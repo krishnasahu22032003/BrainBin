@@ -27,6 +27,11 @@ const ContentSchema = new mongoose.Schema({
     enum: ["productivity", "politics"],
     default: [],
   },
+    userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true, // 👈 important to ensure it’s always there
+  },
 });
 
 
