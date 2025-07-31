@@ -29,6 +29,6 @@ const ContentSchema = new mongoose.Schema({
   },
 });
 
-const ContentModel = mongoose.model("Content", ContentSchema);
-export default ContentModel;
+
+export const ContentModel=model("content",ContentSchema);
 export const UserModel = model("User", UserSchema);

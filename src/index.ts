@@ -2,10 +2,11 @@ import express from "express"
 import mongoose from "mongoose"
 import jwt from "jsonwebtoken"
 import { z } from "zod"
-import { UserModel } from "./db"
+import { UserModel,ContentModel } from "./db"
 import bcrypt from "bcrypt"
 import usermiddleware from "./middleware"
 import JWT_USER_SECRET from "./config/config"
+
 const app = express()
 app.use(express.json());
 app.post("/api/v1/signup", async(req, res) => {
@@ -70,5 +71,27 @@ if(comparedpassword){
     })
 }
 })
+app.post("/api/v1/content",usermiddleware,async(req,res)=>{
+  const { type, link, title, tags } = req.body;
 
+  try {
+    const content = await ContentModel.create({
+      link,
+      title,
+      tags,
+      type,
+      userId: req.userId, // ✅ Fixed this line
+    });
+
+    res.status(201).json({
+      message: "Content created successfully",
+      content,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error creating content",
+      error: (error as Error).message,
+    });
+  }
+})
 app.listen(3000)
