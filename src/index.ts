@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken"
 import { z } from "zod"
 import { UserModel } from "./db"
 import bcrypt from "bcrypt"
+import usermiddleware from "./middleware"
 const app = express()
 app.use(express.json());
 app.post("/api/v1/signup", async(req, res) => {
@@ -42,8 +43,17 @@ if(!thrownerror){
 })
 
 
-app.post("/api/v1/signin", (req, res) => {
-
+app.post("/api/v1/signin", async(req, res) => {
+const email=req.body.email
+const password=req.body.password
+const user = await UserModel.findOne({
+    email:email
+})
+if(!user){
+res.status(403).json({
+    Message:"User does not exists"
+})
+}
 })
 
 app.listen(3000)
