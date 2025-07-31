@@ -116,4 +116,14 @@ app.get("/api/v1/content",usermiddleware,async(req,res)=>{
     });
   }
 })
+app.delete("/api/v1/content",usermiddleware,async(req,res)=>{
+    const contentId=req.body.contentId;
+    await ContentModel.deleteMany({
+contentId,
+userId:req.userId
+    })
+    res.json({
+        Message:"deleted"
+    })
+})
 app.listen(3000)
