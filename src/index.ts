@@ -5,6 +5,7 @@ import { z } from "zod"
 import { UserModel } from "./db"
 import bcrypt from "bcrypt"
 import usermiddleware from "./middleware"
+import JWT_USER_SECRET from "./config/config"
 const app = express()
 app.use(express.json());
 app.post("/api/v1/signup", async(req, res) => {
@@ -53,6 +54,20 @@ if(!user){
 res.status(403).json({
     Message:"User does not exists"
 })
+return
+}
+const comparedpassword =await bcrypt.compare(password,user.password)
+console.log(user)
+if(comparedpassword){
+    const token = jwt.sign({id:user._id},JWT_USER_SECRET as any)
+
+    res.json({
+        token:token
+    })
+}else{
+    res.status(403).json({
+        Message:"incorrect credentials"
+    })
 }
 })
 
