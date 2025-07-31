@@ -8,4 +8,27 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
 });
 
+const ContentSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ["document", "tweet", "youtube", "link"],
+    required: true,
+  },
+  link: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  tags: {
+    type: [String], // Array of strings
+    enum: ["productivity", "politics"],
+    default: [],
+  },
+});
+
+const ContentModel = mongoose.model("Content", ContentSchema);
+export default ContentModel;
 export const UserModel = model("User", UserSchema);
