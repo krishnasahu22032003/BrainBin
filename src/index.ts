@@ -102,7 +102,7 @@ app.get("/api/v1/content",usermiddleware,async(req,res)=>{
       return res.status(401).json({ message: "Unauthorized: No user ID found" });
     }
 
-    const content = await ContentModel.find({ userId });
+    const content = await ContentModel.find({ userId }).populate("userId","email");
 
     res.status(200).json({
       success: true,
