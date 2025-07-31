@@ -1,6 +1,13 @@
 import mongoose, { Schema, model } from "mongoose";
-
-mongoose.connect("mongodb+srv://krishnasahuwork:krishna22032003k@cluster0.gygsits.mongodb.net/BrainBinApp")
+import dotenv from "dotenv";
+dotenv.config();
+mongoose.connect(process.env.MONGO_URL as any)
+  .then(() => {
+    console.log("✅ Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.error("❌ Failed to connect to MongoDB:", err);
+  });
 
 
 const UserSchema = new Schema({
