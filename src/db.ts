@@ -1,8 +1,10 @@
 import mongoose, { Schema, model } from "mongoose";
 import dotenv from "dotenv";
-import { boolean } from "zod";
 dotenv.config();
-mongoose.connect(process.env.MONGO_URL as any)
+
+// ✅ Connect to MongoDB
+mongoose
+  .connect(process.env.MONGO_URL as string)
   .then(() => {
     console.log("✅ Connected to MongoDB");
   })
@@ -10,13 +12,14 @@ mongoose.connect(process.env.MONGO_URL as any)
     console.error("❌ Failed to connect to MongoDB:", err);
   });
 
-
+// ✅ User Schema
 const UserSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 });
 
-const ContentSchema = new mongoose.Schema({
+// ✅ Content Schema
+const ContentSchema = new Schema({
   type: {
     type: String,
     enum: ["document", "tweet", "youtube", "link"],
@@ -31,34 +34,54 @@ const ContentSchema = new mongoose.Schema({
     required: true,
   },
   tags: {
-    type: [String], // Array of strings
+    type: [String],
     enum: ["productivity", "politics"],
     default: [],
   },
-    userId: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true, // 👈 important to ensure it’s always there
+    required: true,
+  },
+
+  // ✅ Add optional fields for sharing if needed here too
+  shareId: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
+  isShared: {
+    type: Boolean,
+    default: false,
+  },
+  shareExpiry: Date,
+  accessCount: {
+    type: Number,
+    default: 0,
   },
 });
-const ShareSchema = new mongoose.Schema({
-  content:String,
-  owner:mongoose.Schema.Types.ObjectId,
-  shareId:{
-    type:String,
-    unique:true,
-    sparse:true
+
+// ✅ Share Schema (if you’re using a separate collection)
+const ShareSchema = new Schema({
+  content: { type: String }, // or contentId: { type: mongoose.Schema.Types.ObjectId, ref: 'content' }
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  shareId: {
+    type: String,
+    unique: true,
+    sparse: true,
   },
-  accessCount:{
-    type:Number,
-    dafault:0,
+  accessCount: {
+    type: Number,
+    default: 0, // ✅ FIXED typo: was "dafault"
   },
-  shareExpiry:Date,
-  isShared:{
-    type:boolean,
-    default:false
-  }
-})
-export const ShareModel=model("share",ShareSchema)
-export const ContentModel=model("content",ContentSchema);
+  shareExpiry: Date,
+  isShared: {
+    type: Boolean, // ✅ FIXED: was incorrectly using `zod.boolean` type
+    default: false,
+  },
+});
+
+// ✅ Models
 export const UserModel = model("User", UserSchema);
+export const ContentModel = model("content", ContentSchema);
+export const ShareModel = model("share", ShareSchema);
