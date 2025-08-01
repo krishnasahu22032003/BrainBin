@@ -2,7 +2,7 @@ import mongoose, { Schema, model } from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
-// ✅ Connect to MongoDB
+
 mongoose
   .connect(process.env.MONGO_URL as string)
   .then(() => {
@@ -12,13 +12,13 @@ mongoose
     console.error("❌ Failed to connect to MongoDB:", err);
   });
 
-// ✅ User Schema
+// User Schema
 const UserSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 });
 
-// ✅ Content Schema
+// Content Schema
 const ContentSchema = new Schema({
   type: {
     type: String,
@@ -44,7 +44,7 @@ const ContentSchema = new Schema({
     required: true,
   },
 
-  // ✅ Add optional fields for sharing if needed here too
+  // Add optional fields for sharing if needed here too
   shareId: {
     type: String,
     unique: true,
@@ -61,7 +61,7 @@ const ContentSchema = new Schema({
   },
 });
 
-// ✅ Share Schema (if you’re using a separate collection)
+// Share Schema (if you’re using a separate collection)
 const ShareSchema = new Schema({
   content: { type: String }, // or contentId: { type: mongoose.Schema.Types.ObjectId, ref: 'content' }
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -72,12 +72,21 @@ const ShareSchema = new Schema({
   },
   accessCount: {
     type: Number,
-    default: 0, // ✅ FIXED typo: was "dafault"
+    default: 0, 
   },
   shareExpiry: Date,
   isShared: {
-    type: Boolean, // ✅ FIXED: was incorrectly using `zod.boolean` type
+    type: Boolean, 
     default: false,
+  },
+});
+ContentSchema.set("toJSON", {
+  transform: function (doc, ret:any) {
+    delete ret.shareId;
+    delete ret.isShared;
+    delete ret.shareExpiry;
+    delete ret.accessCount;
+    return ret;
   },
 });
 
