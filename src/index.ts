@@ -127,6 +127,22 @@ userId:req.userId
     })
 })
 
+app.post("/api/v1/share/:id", async (req, res) => {
+  try {
+    const content = await ContentModel.findById(req.params.id);
+    if (!content) return res.status(404).json({ message: "Content not found" });
+
+    content.shareId = content.shareId || nanoid(8);
+    content.isShared = true;
+    content.shareExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // optional
+    await content.save();
+
+    res.json({ url: `http://localhost:3000/share/${content.shareId}` });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 
 
