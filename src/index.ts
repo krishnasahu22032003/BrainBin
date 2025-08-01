@@ -143,7 +143,29 @@ app.post("/api/v1/share/:id", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+app.get("/share/:shareId", async (req, res) => {
+  try {
+    const content = await ContentModel.findOne({ shareId: req.params.shareId });
 
+    if (!content || !content.isShared) {
+      return res.status(404).json({ message: "Share not found" });
+    }
+
+    // Optional: Check for expiry
+    if (content.shareExpiry && new Date() > content.shareExpiry) {
+      return res.status(403).json({ message: "Share link expired" });
+    }
+
+    // Optional: Increment access count
+    content.accessCount = (content.accessCount || 0) + 1;
+    await content.save();
+
+    res.json({ content });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 
 app.listen(3000)
