@@ -1,5 +1,6 @@
 import mongoose, { Schema, model } from "mongoose";
 import dotenv from "dotenv";
+import { boolean } from "zod";
 dotenv.config();
 mongoose.connect(process.env.MONGO_URL as any)
   .then(() => {
@@ -40,7 +41,24 @@ const ContentSchema = new mongoose.Schema({
     required: true, // 👈 important to ensure it’s always there
   },
 });
-
-
+const ShareSchema = new mongoose.Schema({
+  content:String,
+  owner:mongoose.Schema.Types.ObjectId,
+  shareId:{
+    type:String,
+    unique:true,
+    sparse:true
+  },
+  accessCount:{
+    type:Number,
+    dafault:0,
+  },
+  shareExpiry:Date,
+  isShared:{
+    type:boolean,
+    default:false
+  }
+})
+export const ShareModel=model("share",ShareSchema)
 export const ContentModel=model("content",ContentSchema);
 export const UserModel = model("User", UserSchema);
