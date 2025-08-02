@@ -1,16 +1,16 @@
-import React from "react";
+import React, { type ReactNode } from "react";
 import classNames from "classnames";
 
 export interface ButtonProps {
   variant: "primary" | "secondary";
   size: "sm" | "md" | "lg" | "xl" | "2xl";
   text: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   onClick: () => void;
 }
 
 export const Button: React.FC<ButtonProps> = ({ variant, size, text, icon, onClick }) => {
-  const baseClasses = "inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 focus:outline-none";
+  const baseClasses = "inline-flex items-center justify-center rounded-xl mt-2 font-semibold transition-all duration-200 focus:outline-none";
 
   const variantStyles: Record<ButtonProps["variant"], string> = {
     primary: "bg-blue-600 text-white hover:bg-blue-700 active:scale-95 shadow-md",
@@ -19,8 +19,8 @@ export const Button: React.FC<ButtonProps> = ({ variant, size, text, icon, onCli
 
   const sizeStyles: Record<ButtonProps["size"], string> = {
     sm: "px-3 py-1 text-sm",
-    md: "px-4 py-2 text-base",
-    lg: "px-5 py-2.5 text-lg",
+    md: "px-4 py-2  text-base",
+    lg: "px-9 py-1.5  mr-2 text-lg",
     xl: "px-6 py-3 text-xl",
     "2xl": "px-8 py-4 text-2xl",
   };
