@@ -1,3 +1,4 @@
+import { Button } from "./components/Button"
 
 
 function App() {
@@ -5,8 +6,8 @@ function App() {
 
   return (
     <>
-     <div className="bg-black text-red-300">
-      hello
+     <div >
+<Button variant="primary" size="lg" text="sign Up" onClick={()=>{console.log("clicked")}}/>
      </div>
     </>
   )
