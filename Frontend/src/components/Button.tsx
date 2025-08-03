@@ -8,8 +8,8 @@ export interface ButtonProps {
   icon?: ReactNode;
   onClick: () => void;
 }
-
-export const Button: React.FC<ButtonProps> = ({ variant, size, text, icon, onClick }) => {
+//React.Fc stands for react functional component
+export const Button:React.FC<ButtonProps> = ({ variant, size, text, icon, onClick }) => {
   const baseClasses = "inline-flex items-center justify-center rounded-xl mt-2 font-semibold transition-all duration-200 focus:outline-none";
 
   const variantStyles: Record<ButtonProps["variant"], string> = {
