@@ -2,7 +2,6 @@ import type { ReactElement } from "react";
 
 interface Topbar {
   Title: string;
-  lefticon: ReactElement;
   righticon1: ReactElement;
   righticon2: ReactElement;
   heading?: string;
@@ -13,13 +12,12 @@ interface Topbar {
 
 const Card: React.FC<Topbar> = ({
   Title,
-  lefticon,
   righticon1,
   righticon2,
   heading = "Subheading",
   points = [],
   hashtags = [],
-  date = "Aug 3, 2025",
+  date = "22-12-2300",
 }) => {
   const wrapperStyle =
     "border border-gray-500 w-full mt-20 rounded-xl shadow-md overflow-hidden bg-white ";
@@ -34,7 +32,7 @@ const Card: React.FC<Topbar> = ({
     <div className={wrapperStyle}>
       {/* Top Bar */}
       <div className={topbarStyle}>
-        <div>{lefticon}</div>
+
         <div className={titleStyle}>{Title}</div>
         <div className="flex gap-2">
           {righticon1}
@@ -51,7 +49,9 @@ const Card: React.FC<Topbar> = ({
           <li key={idx}>{point}</li>
         ))}
       </ul>
-
+      <div className="w-full">
+        <iframe  src="https://www.youtube.com/embed/gRHAtLYLee0?si=wWV8akFWmcBvt8CF" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+      </div>
       {/* Bottom Hashtags and Date */}
       <div className={bottomBarStyle}>
         <div className="flex gap-2 flex-wrap">
