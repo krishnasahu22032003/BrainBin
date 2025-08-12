@@ -4,13 +4,13 @@ import { IoMdClose } from "react-icons/io";
 interface ContentModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit?: (data: {
+  onSubmit: (data: {
     type: string;
     link: string;
     title: string;
     tags: string[];
     description: string[];
-  }) => void;
+  }) => void; // made required
 }
 
 const contentTypes = [
@@ -28,10 +28,9 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
-  const [descriptionText, setDescriptionText] = useState(""); // one string, split into bullets
+  const [descriptionText, setDescriptionText] = useState("");
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // ESC close
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -40,14 +39,12 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
     return () => document.removeEventListener("keydown", handleEsc);
   }, [onClose]);
 
-  // Outside click close
   const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
       onClose();
     }
   };
 
-  // Add tag on Enter
   const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && tagInput.trim()) {
       e.preventDefault();
@@ -58,21 +55,18 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
     }
   };
 
-  // Remove tag
   const removeTag = (tag: string) => {
     setTags(tags.filter((t) => t !== tag));
   };
 
-  // Submit form
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const descriptionBullets = descriptionText
       .split("\n")
       .map((line) => line.trim())
       .filter((line) => line.length > 0);
-      
 
-    onSubmit?.({
+    onSubmit({
       type,
       link,
       title,
@@ -101,7 +95,6 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
         ref={modalRef}
         className="relative w-[90%] max-w-md p-6 bg-white dark:bg-gray-900 rounded-xl shadow-lg space-y-4 transition-all"
       >
-        {/* Close */}
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-500 hover:text-black dark:hover:text-white text-2xl"
@@ -109,12 +102,10 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
           <IoMdClose />
         </button>
 
-        {/* Title */}
         <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">
           Add Content
         </h2>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-3">
           {/* Type */}
           <div>
@@ -196,7 +187,7 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
             />
           </div>
 
-          {/* Description bullets */}
+          {/* Description */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Description (one bullet per line)
