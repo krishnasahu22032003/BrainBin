@@ -22,7 +22,7 @@ const UserSchema = new Schema({
 const ContentSchema = new Schema({
   type: {
     type: String,
-    enum: ["document", "tweet", "youtube", "link"],
+    enum: ["document", "tweet", "youtube", "link" , "instagram" , "facebook" ],
     required: true,
   },
   link: {
@@ -35,7 +35,6 @@ const ContentSchema = new Schema({
   },
   tags: {
     type: [String],
-    enum: ["productivity", "politics"],
     default: [],
   },
   userId: {
