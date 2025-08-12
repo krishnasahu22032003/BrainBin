@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Button } from "./components/Button";
-import { FaRocket, FaHeart, FaShare, FaBell, FaUser } from "react-icons/fa";
+import { FaRocket, FaHeart, FaShare } from "react-icons/fa";
 import { GrShareOption } from "react-icons/gr";
 import Card from "./components/Card";
 import ContentModal from "./components/ContentModal";
+import Sidebar from "./components/Sidebar";
 
 interface CardData {
   Title: string;
@@ -48,7 +49,10 @@ function App() {
 
   return (
     <>
-      <div className="p-6">
+      <Sidebar />
+
+      {/* Added ml-48 so content shifts right and does not go under Sidebar */}
+      <div className="ml-48 p-6">
         <div className="flex justify-end gap-4 mb-6">
           <Button
             variant="primary"
