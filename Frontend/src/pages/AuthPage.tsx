@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 type AuthMode = "signup" | "signin";
 
@@ -8,6 +9,15 @@ export default function AuthPage() {
   const [mode, setMode] = useState<AuthMode>("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  // ✅ Redirect if already logged in
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [navigate]);
 
   const mutation = useMutation({
     mutationFn: async () => {
@@ -29,6 +39,16 @@ export default function AuthPage() {
     onSuccess: (data) => {
       alert(`${mode === "signup" ? "Signup" : "Signin"} successful!`);
       console.log("Response:", data);
+
+      // ✅ Save token to localStorage
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+
+      // ✅ Redirect after successful sign-in
+      if (mode === "signin") {
+        navigate("/dashboard", { replace: true });
+      }
     },
     onError: (error: any) => {
       alert(error.message || "Something went wrong");
