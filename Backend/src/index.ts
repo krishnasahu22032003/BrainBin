@@ -48,31 +48,32 @@ if(!thrownerror){
 
 
 app.post("/api/v1/signin", async(req, res) => {
-const email=req.body.email
-const password=req.body.password
-const user = await UserModel.findOne({
-    email:email
-})
-if(!user){
-res.status(403).json({
-    Message:"User does not exists"
-})
-return
-}
-const comparedpassword =await bcrypt.compare(password,user.password)
-console.log(user)
-if(comparedpassword){
-    const token = jwt.sign({id:user._id},JWT_USER_SECRET as any)
+ const { email, password } = req.body;
 
-    res.json({
-        token:token
-    })
-}else{
-    res.status(403).json({
-        Message:"incorrect credentials"
-    })
-}
-})
+  const user = await UserModel.findOne({ email });
+  if (!user) {
+    return res.status(403).json({ message: "User does not exist" });
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    return res.status(403).json({ message: "Incorrect credentials" });
+  }
+
+  const token = jwt.sign({ id: user._id }, JWT_USER_SECRET as string, {
+    expiresIn: "7d",
+  });
+
+  // Send token as an HTTP-only cookie
+  res.cookie("auth_token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // only use HTTPS in prod
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  });
+
+  res.json({ message: "Signin successful" });
+});
 app.post("/api/v1/content",usermiddleware,async(req,res)=>{
   const { type, link, title, tags } = req.body;
 
