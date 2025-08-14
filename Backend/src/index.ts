@@ -1,5 +1,4 @@
 import express from "express"
-import mongoose from "mongoose"
 import jwt from "jsonwebtoken"
 import { z } from "zod"
 import { UserModel,ContentModel,ShareModel } from "./db"
@@ -7,7 +6,10 @@ import bcrypt from "bcrypt"
 import usermiddleware from "./middleware"
 import JWT_USER_SECRET from "./config/config"
 import { nanoid } from "nanoid"
+import cors from "cors";
+
 const app = express()
+app.use(cors());
 app.use(express.json());
 app.post("/api/v1/signup", async(req, res) => {
     const requiredbody = z.object({
