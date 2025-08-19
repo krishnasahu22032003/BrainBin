@@ -2,14 +2,19 @@ import express from "express"
 import jwt from "jsonwebtoken"
 import { z } from "zod"
 import { UserModel,ContentModel,ShareModel } from "./db"
+import { auth, AuthRequest } from "./auth";
 import bcrypt from "bcrypt"
 import usermiddleware from "./middleware"
 import JWT_USER_SECRET from "./config/config"
 import { nanoid } from "nanoid"
 import cors from "cors";
-
+import cookieParser from "cookie-parser";
 const app = express()
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173", // your React dev URL
+  credentials: true,               // ✅ allow cookies
+}));
+app.use(cookieParser());
 app.use(express.json());
 app.post("/api/v1/signup", async(req, res) => {
     const requiredbody = z.object({
@@ -46,30 +51,26 @@ if(!thrownerror){
 }
 })
 
+app.get("/api/v1/me", auth, async (req: AuthRequest, res) => {
+  const user = await UserModel.findById(req.userId).select("_id email");
+  res.json({ user });
+});
 
 app.post("/api/v1/signin", async(req, res) => {
  const { email, password } = req.body;
-
   const user = await UserModel.findOne({ email });
-  if (!user) {
-    return res.status(403).json({ message: "User does not exist" });
-  }
+  if (!user) return res.status(403).json({ message: "User does not exist" });
 
-  const isPasswordValid = await bcrypt.compare(password, user.password);
-  if (!isPasswordValid) {
-    return res.status(403).json({ message: "Incorrect credentials" });
-  }
+  const ok = await bcrypt.compare(password, user.password);
+  if (!ok) return res.status(403).json({ message: "Incorrect credentials" });
 
-  const token = jwt.sign({ id: user._id }, JWT_USER_SECRET as string, {
-    expiresIn: "7d",
-  });
+  const token = jwt.sign({ id: user._id }, JWT_USER_SECRET as string, { expiresIn: "7d" });
 
-  // Send token as an HTTP-only cookie
   res.cookie("auth_token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // only use HTTPS in prod
-    sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    secure: process.env.NODE_ENV === "production", // false on localhost
+    sameSite: "lax",                               // dev-friendly
+    maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
   res.json({ message: "Signin successful" });
