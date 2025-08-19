@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Button } from "../components/Button";
-import { FaRocket, FaHeart, FaShare } from "react-icons/fa";
+import { FaRocket, FaHeart, FaShare ,FaSignOutAlt } from "react-icons/fa";
 import { GrShareOption } from "react-icons/gr";
 import Card from "../components/Card";
 import ContentModal from "../components/ContentModal";
 import Sidebar from "../components/Sidebar";
-
+import { useLogout } from "../hooks/useLogout"; // 👈 import
 interface CardData {
   Title: string;
   righticon1: React.ReactElement;
@@ -19,9 +19,8 @@ interface CardData {
 
 function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [cards, setCards] = useState<CardData[]>([
-    // You can start with empty array or some default cards here
-  ]);
+  const [cards, setCards] = useState<CardData[]>([]);
+  const logout = useLogout(); 
 
   // Handle new content submission from modal
   const handleAddContent = (data: {
@@ -67,6 +66,13 @@ function Dashboard() {
             text="Share"
             onClick={() => console.log("clicked")}
             icon={<GrShareOption />}
+          />
+           <Button
+            variant="secondary"
+            size="lg"
+    text={logout.isPending ? "Logging out..." : "Logout"}
+            onClick={() => logout.mutate()}
+            icon={<FaSignOutAlt />}
           />
         </div>
 
