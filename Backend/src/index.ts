@@ -56,6 +56,15 @@ app.get("/api/v1/me", auth, async (req: AuthRequest, res) => {
   res.json({ user });
 });
 
+app.post("/api/v1/logout", (req, res) => {
+  res.clearCookie("auth_token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", 
+    sameSite: "strict",
+  });
+  return res.status(200).json({ message: "Logged out successfully" });
+});
+
 app.post("/api/v1/signin", async(req, res) => {
  const { email, password } = req.body;
   const user = await UserModel.findOne({ email });
