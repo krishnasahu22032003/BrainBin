@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../components/Button";
 import { FaRocket, FaSignOutAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
@@ -22,6 +22,7 @@ interface CardData {
 function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cards, setCards] = useState<CardData[]>([]);
+  const [filterType, setFilterType] = useState<string>("all"); // ✅ Filter state
   const logout = useLogout();
   const navigate = useNavigate();
 
@@ -106,7 +107,6 @@ function Dashboard() {
     }
   };
 
-  // ✅ Proper logout with redirect
   const handleLogout = () => {
     logout.mutate(undefined, {
       onSuccess: () => navigate("/signin"),
@@ -114,9 +114,15 @@ function Dashboard() {
     });
   };
 
+  // ✅ Filter cards before rendering
+  const filteredCards =
+    filterType === "all"
+      ? cards
+      : cards.filter((c) => c.Title.toLowerCase() === filterType.toLowerCase());
+
   return (
     <>
-      <Sidebar />
+      <Sidebar filterType={filterType} setFilterType={setFilterType} />
 
       <div className="ml-48 p-6">
         <div className="flex justify-end gap-4 mb-6">
@@ -144,11 +150,11 @@ function Dashboard() {
         </div>
 
         <div className="flex gap-4 flex-wrap justify-start">
-          {cards.length === 0 && (
+          {filteredCards.length === 0 && (
             <p className="text-gray-500">No cards yet. Add some content!</p>
           )}
 
-          {cards.map((card) => (
+          {filteredCards.map((card) => (
             <Card
               key={card._id}
               Title={card.Title}
