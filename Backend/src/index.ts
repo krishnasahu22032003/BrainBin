@@ -132,16 +132,28 @@ app.get("/api/v1/content",auth,async(req,res)=>{
     });
   }
 })
-app.delete("/api/v1/content",auth,async(req,res)=>{
-    const contentId=req.body.contentId;
-    await ContentModel.deleteMany({
-contentId,
-userId:req.userId
-    })
-    res.json({
-        Message:"deleted"
-    })
-})
+app.delete("/api/v1/content/:id", auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deleted = await ContentModel.findOneAndDelete({
+      _id: id,
+      userId: req.userId, 
+    });
+
+    if (!deleted) {
+      return res.status(404).json({ message: "Content not found or not authorized" });
+    }
+
+    res.json({ message: "Content deleted successfully" });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error deleting content",
+      error: (error as Error).message,
+    });
+  }
+});
+
 
 app.post("/api/v1/share/:id", async (req, res) => {
   try {

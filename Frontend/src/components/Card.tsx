@@ -3,7 +3,7 @@ import { useEffect, type ReactElement } from "react";
 interface CardProps {
   Title: string;
   righticon1: ReactElement;
-  righticon2: ReactElement;
+
   heading?: string;
   points?: string[];
   hashtags?: string[];
@@ -14,7 +14,7 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({
   Title,
   righticon1,
-  righticon2,
+
   heading = "Subheading",
   points = [],
   hashtags = [],
@@ -96,7 +96,7 @@ const Card: React.FC<CardProps> = ({
         <div className={titleStyle}>{Title}</div>
         <div className="flex gap-2">
           {righticon1}
-          {righticon2}
+      
         </div>
       </div>
 

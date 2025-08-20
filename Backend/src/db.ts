@@ -48,6 +48,7 @@ const ContentSchema = new Schema({
     required: true,
   },
 
+
   // Add optional fields for sharing if needed here too
   shareId: {
     type: String,
@@ -62,8 +63,8 @@ const ContentSchema = new Schema({
   accessCount: {
     type: Number,
     default: 0,
-  },
-});
+  }
+},{ timestamps: true });
 
 // Share Schema (if you’re using a separate collection)
 const ShareSchema = new Schema({
@@ -83,6 +84,7 @@ const ShareSchema = new Schema({
     type: Boolean,
     default: false,
   },
+
 });
 ContentSchema.set("toJSON", {
   transform: function (doc, ret: any) {
