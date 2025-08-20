@@ -18,14 +18,18 @@ const Sidebar: React.FC<SidebarProps> = ({ filterType, setFilterType }) => {
   return (
   <aside className="fixed top-0 left-0 h-full w-48 bg-white text-gray-800 flex flex-col p-4 shadow-md">
     {/* Logo + Title */}
-    <div className="flex items-center justify-center ">
-      <img
-        src="/image/logo.png" // replace with your logo path
-        alt="Brain Bin Logo"
-        className="w-15 h-15 object-contain -mr-2"
-      />
-      <h1 className="text-xl font-bold tracking-wide">Brain Bin</h1>
-    </div>
+<div className="flex items-center justify-center ">
+  <img
+    src="/image/logo.png"
+    alt="Brain Bin Logo"
+    className="w-16 h-16 object-contain"
+  />
+  <h1 className="text-xl font-bold tracking-wide text-gray-800">
+    Brain Bin
+  </h1>
+</div>
+
+
 
     {/* Navigation */}
     <nav className="flex flex-col gap-3 mt-4">
