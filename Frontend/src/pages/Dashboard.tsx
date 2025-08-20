@@ -124,8 +124,8 @@ function Dashboard() {
     <>
       <Sidebar filterType={filterType} setFilterType={setFilterType} />
 
-      <div className="ml-48 p-6">
-        <div className="flex justify-end gap-4 mb-6">
+      <div className="ml-48 p-4">
+        <div className="flex justify-end gap-2 ">
           <Button
             variant="primary"
             size="lg"
