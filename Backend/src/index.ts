@@ -4,18 +4,17 @@ import { z } from "zod"
 import { UserModel,ContentModel,ShareModel } from "./db"
 import { auth, AuthRequest } from "./auth";
 import bcrypt from "bcrypt"
-import usermiddleware from "./middleware"
 import JWT_USER_SECRET from "./config/config"
 import { nanoid } from "nanoid"
 import cors from "cors";
 import cookieParser from "cookie-parser";
 const app = express()
+app.use(express.json());
+app.use(cookieParser());
 app.use(cors({
   origin: "http://localhost:5173", // your React dev URL
   credentials: true,               // ✅ allow cookies
 }));
-app.use(cookieParser());
-app.use(express.json());
 app.post("/api/v1/signup", async(req, res) => {
     const requiredbody = z.object({
         email: z.email().min(5).max(50),
@@ -50,41 +49,44 @@ if(!thrownerror){
     })
 }
 })
-
 app.get("/api/v1/me", auth, async (req: AuthRequest, res) => {
   const user = await UserModel.findById(req.userId).select("_id email");
   res.json({ user });
 });
 
+
 app.post("/api/v1/logout", (req, res) => {
   res.clearCookie("auth_token", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", 
-    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
-  return res.status(200).json({ message: "Logged out successfully" });
+  res.json({ message: "Logged out" });
 });
 
-app.post("/api/v1/signin", async(req, res) => {
- const { email, password } = req.body;
+// backend/index.ts (or routes)
+app.post("/api/v1/signin", async (req, res) => {
+  const { email, password } = req.body;
   const user = await UserModel.findOne({ email });
   if (!user) return res.status(403).json({ message: "User does not exist" });
 
   const ok = await bcrypt.compare(password, user.password);
   if (!ok) return res.status(403).json({ message: "Incorrect credentials" });
 
-  const token = jwt.sign({ id: user._id }, JWT_USER_SECRET as string, { expiresIn: "7d" });
+  const token = jwt.sign({ id: user._id }, JWT_USER_SECRET, { expiresIn: "7d" });
 
+  // ✅ Set cookie
   res.cookie("auth_token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // false on localhost
-    sameSite: "lax",                               // dev-friendly
+    secure: process.env.NODE_ENV === "production", 
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
   res.json({ message: "Signin successful" });
 });
-app.post("/api/v1/content",usermiddleware,async(req,res)=>{
+
+app.post("/api/v1/content",auth,async(req,res)=>{
   const { type, link, title, tags } = req.body;
 
   try {
@@ -107,7 +109,7 @@ app.post("/api/v1/content",usermiddleware,async(req,res)=>{
     });
   }
 })
-app.get("/api/v1/content",usermiddleware,async(req,res)=>{
+app.get("/api/v1/content",auth,async(req,res)=>{
  try {
     const userId = req.userId; // added by your middleware
 
@@ -129,7 +131,7 @@ app.get("/api/v1/content",usermiddleware,async(req,res)=>{
     });
   }
 })
-app.delete("/api/v1/content",usermiddleware,async(req,res)=>{
+app.delete("/api/v1/content",auth,async(req,res)=>{
     const contentId=req.body.contentId;
     await ContentModel.deleteMany({
 contentId,

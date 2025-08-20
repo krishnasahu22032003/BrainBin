@@ -23,28 +23,48 @@ function Dashboard() {
   const logout = useLogout(); 
 
   // Handle new content submission from modal
-  const handleAddContent = (data: {
-    type: string;
-    link: string;
-    title: string;
-    tags: string[];
-    description: string[];
-  }) => {
-    // Create new card data
+ const handleAddContent = async (data: {
+  type: string;
+  link: string;
+  title: string;
+  tags: string[];
+  description: string[];
+}) => {
+  try {
+    const res = await fetch("http://localhost:3000/api/v1/content", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include", // 👈 important, sends cookie with userId
+      body: JSON.stringify({
+        type: data.type,
+        link: data.link,
+        title: data.title,
+        tags: data.tags,
+        // description if you also save it in DB
+      }),
+    });
+
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.message);
+
+    // Use DB response to update UI
     const newCard: CardData = {
-      Title: data.type.charAt(0).toUpperCase() + data.type.slice(1), // e.g. "Youtube"
+      Title: result.content.type,
       righticon1: <FaHeart />,
       righticon2: <FaShare />,
-      heading: data.title,
-      points: data.description,
-      hashtags: data.tags,
-      date: new Date().toLocaleDateString(),
-      link: data.link,
+      heading: result.content.title,
+      points: data.description, // only if you’re not saving desc in DB
+      hashtags: result.content.tags,
+      date: new Date(result.content.createdAt).toLocaleDateString(),
+      link: result.content.link,
     };
 
-    // Add to cards list
     setCards((prev) => [newCard, ...prev]);
-  };
+  } catch (err: any) {
+    alert(err.message || "Failed to add content");
+  }
+};
+
 
   return (
     <>
