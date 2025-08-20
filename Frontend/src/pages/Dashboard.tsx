@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../components/Button";
 import { FaRocket, FaSignOutAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
@@ -11,7 +11,6 @@ import { useLogout } from "../hooks/useLogout";
 interface CardData {
   _id: string;
   Title: string;
-  righticon1: React.ReactElement;
   heading: string;
   points: string[];
   hashtags: string[];
@@ -24,7 +23,35 @@ function Dashboard() {
   const [cards, setCards] = useState<CardData[]>([]);
   const logout = useLogout();
 
-  // Handle new content submission from modal
+  // Fetch cards from backend on mount
+  useEffect(() => {
+    const fetchCards = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/v1/content", {
+          credentials: "include",
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to fetch content");
+
+        const cardsFromDB = data.content.map((c: any) => ({
+          _id: c._id,
+          Title: c.type,
+          heading: c.title,
+          points: c.description || [],
+          hashtags: c.tags || [],
+          date: c.createdAt ? new Date(c.createdAt).toLocaleDateString() : "",
+          link: c.link,
+        }));
+
+        setCards(cardsFromDB);
+      } catch (err: any) {
+        console.error("Error fetching content:", err.message);
+      }
+    };
+
+    fetchCards();
+  }, []);
+
   const handleAddContent = async (data: {
     type: string;
     link: string;
@@ -36,26 +63,17 @@ function Dashboard() {
       const res = await fetch("http://localhost:3000/api/v1/content", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", // 👈 important, sends cookie with userId
-        body: JSON.stringify({
-          type: data.type,
-          link: data.link,
-          title: data.title,
-          tags: data.tags,
-          description: data.description,
-        }),
+        credentials: "include",
+        body: JSON.stringify(data),
       });
-
       const result = await res.json();
-      if (!res.ok) throw new Error(result.message);
+      if (!res.ok) throw new Error(result.message || "Failed to add content");
 
-      // Use DB response to update UI
       const newCard: CardData = {
         _id: result.content._id,
         Title: result.content.type,
-        righticon1: <IoMdClose className="text-red-500 hover:text-red-700" />,
         heading: result.content.title,
-        points: result.content.description || [], // ✅ safe fallback
+        points: result.content.description || [],
         hashtags: result.content.tags || [],
         date: result.content.createdAt
           ? new Date(result.content.createdAt).toLocaleDateString()
@@ -75,16 +93,14 @@ function Dashboard() {
         method: "DELETE",
         credentials: "include",
       });
-
       if (!res.ok) {
-        const result = await res.json();
-        throw new Error(result.message || "Failed to delete content");
+        const data = await res.json();
+        throw new Error(data.message || "Failed to delete content");
       }
 
-      // ✅ Remove from UI
       setCards((prev) => prev.filter((card) => card._id !== id));
     } catch (err: any) {
-      alert(err.message);
+      alert(err.message || "Failed to delete content");
     }
   };
 
@@ -92,7 +108,6 @@ function Dashboard() {
     <>
       <Sidebar />
 
-      {/* Added ml-48 so content shifts right and does not go under Sidebar */}
       <div className="ml-48 p-6">
         <div className="flex justify-end gap-4 mb-6">
           <Button
@@ -129,7 +144,7 @@ function Dashboard() {
               Title={card.Title}
               righticon1={
                 <button onClick={() => handleDeleteContent(card._id)}>
-                  <IoMdClose className="text-red-500 hover:text-red-700 cursor-pointer" />
+                  <IoMdClose className="cursor-pointer" />
                 </button>
               }
               heading={card.heading}
