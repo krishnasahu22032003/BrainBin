@@ -7,6 +7,7 @@ import Card from "../components/Card";
 import ContentModal from "../components/ContentModal";
 import Sidebar from "../components/Sidebar";
 import { useLogout } from "../hooks/useLogout";
+import { useNavigate } from "react-router-dom";
 
 interface CardData {
   _id: string;
@@ -22,6 +23,7 @@ function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cards, setCards] = useState<CardData[]>([]);
   const logout = useLogout();
+  const navigate = useNavigate();
 
   // Fetch cards from backend on mount
   useEffect(() => {
@@ -104,6 +106,14 @@ function Dashboard() {
     }
   };
 
+  // ✅ Proper logout with redirect
+  const handleLogout = () => {
+    logout.mutate(undefined, {
+      onSuccess: () => navigate("/signin"),
+      onError: (err: any) => alert(err.message || "Logout failed"),
+    });
+  };
+
   return (
     <>
       <Sidebar />
@@ -128,7 +138,7 @@ function Dashboard() {
             variant="secondary"
             size="lg"
             text={logout.isPending ? "Logging out..." : "Logout"}
-            onClick={() => logout.mutate()}
+            onClick={handleLogout}
             icon={<FaSignOutAlt />}
           />
         </div>
