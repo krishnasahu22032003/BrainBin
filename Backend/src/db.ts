@@ -1,5 +1,6 @@
 import mongoose, { Schema, model } from "mongoose";
 import dotenv from "dotenv";
+import { string } from "zod";
 dotenv.config();
 
 
@@ -22,7 +23,7 @@ const UserSchema = new Schema({
 const ContentSchema = new Schema({
   type: {
     type: String,
-    enum: ["document", "tweet", "youtube", "link" , "instagram" , "facebook" ],
+    enum: ["document", "tweet", "youtube", "link", "instagram", "facebook"],
     required: true,
   },
   link: {
@@ -36,6 +37,10 @@ const ContentSchema = new Schema({
   tags: {
     type: [String],
     default: [],
+  },
+  description: {
+    type:[String],
+    default:[]
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -71,16 +76,16 @@ const ShareSchema = new Schema({
   },
   accessCount: {
     type: Number,
-    default: 0, 
+    default: 0,
   },
   shareExpiry: Date,
   isShared: {
-    type: Boolean, 
+    type: Boolean,
     default: false,
   },
 });
 ContentSchema.set("toJSON", {
-  transform: function (doc, ret:any) {
+  transform: function (doc, ret: any) {
     delete ret.shareId;
     delete ret.isShared;
     delete ret.shareExpiry;

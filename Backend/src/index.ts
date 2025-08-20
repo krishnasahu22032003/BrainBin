@@ -87,7 +87,7 @@ app.post("/api/v1/signin", async (req, res) => {
 });
 
 app.post("/api/v1/content",auth,async(req,res)=>{
-  const { type, link, title, tags } = req.body;
+  const { type, link, title, tags , description } = req.body;
 
   try {
     const content = await ContentModel.create({
@@ -95,6 +95,7 @@ app.post("/api/v1/content",auth,async(req,res)=>{
       title,
       tags,
       type,
+      description,
       userId: req.userId, // ✅ Fixed this line
     });
 

@@ -40,7 +40,7 @@ function Dashboard() {
         link: data.link,
         title: data.title,
         tags: data.tags,
-        // description if you also save it in DB
+         description: data.description,
       }),
     });
 
