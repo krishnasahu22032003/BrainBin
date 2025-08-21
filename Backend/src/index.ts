@@ -64,7 +64,6 @@ app.post("/api/v1/logout", (req, res) => {
   res.json({ message: "Logged out" });
 });
 
-// backend/index.ts (or routes)
 app.post("/api/v1/signin", async (req, res) => {
   const { email, password } = req.body;
   const user = await UserModel.findOne({ email });
@@ -179,12 +178,9 @@ app.get("/share/:shareId", async (req, res) => {
       return res.status(404).json({ message: "Share not found" });
     }
 
-    // Optional: Check for expiry
     if (content.shareExpiry && new Date() > content.shareExpiry) {
       return res.status(403).json({ message: "Share link expired" });
     }
-
-    // Optional: Increment access count
     content.accessCount = (content.accessCount || 0) + 1;
     await content.save();
 

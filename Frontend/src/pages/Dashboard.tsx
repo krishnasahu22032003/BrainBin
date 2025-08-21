@@ -113,6 +113,34 @@ function Dashboard() {
       onError: (err: any) => alert(err.message || "Logout failed"),
     });
   };
+const handleNativeShare = async (id: string) => {
+  try {
+    const res = await fetch(`http://localhost:3000/api/v1/share/${id}`, {
+      method: "POST",
+      credentials: "include",
+    });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.message || "Failed to share");
+
+    const shareUrl = data.url;
+
+    if (navigator.share) {
+      await navigator.share({
+        title: "Check this out on BrainBin",
+        text: "I saved something interesting!",
+        url: shareUrl,
+      });
+    } else {
+      // fallback: copy to clipboard
+      await navigator.clipboard.writeText(shareUrl);
+      alert("Link copied to clipboard!");
+    }
+  } catch (err: any) {
+    alert(err.message || "Something went wrong");
+  }
+};
+
 
   // ✅ Filter cards before rendering
   const filteredCards =
@@ -133,13 +161,13 @@ function Dashboard() {
             onClick={() => setIsModalOpen(true)}
             icon={<FaRocket />}
           />
-          <Button
-            variant="secondary"
-            size="lg"
-            text="Share"
-            onClick={() => console.log("clicked")}
-            icon={<GrShareOption />}
-          />
+       <Button
+  variant="secondary"
+  size="lg"
+  text="Share"
+  onClick={() => handleNativeShare(cards[0]._id)}   // 👈 now it's () => void
+  icon={<GrShareOption />}
+/>
           <Button
             variant="secondary"
             size="lg"
