@@ -163,13 +163,13 @@ app.post("/api/v1/share/:id", async (req, res) => {
     content.shareExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days expiry
     await content.save();
 
+    // Return only shareId
     res.json({ shareId: content.shareId });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 });
-
 
 app.get("/api/share/:shareId", async (req, res) => {
   try {

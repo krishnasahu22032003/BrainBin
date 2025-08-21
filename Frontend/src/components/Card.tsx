@@ -3,7 +3,7 @@ import { useEffect, type ReactElement } from "react";
 interface CardProps {
   Title: string;
   righticon1: ReactElement;
-
+  description?: string;
   heading?: string;
   points?: string[];
   hashtags?: string[];
@@ -14,7 +14,6 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({
   Title,
   righticon1,
-
   heading = "Subheading",
   points = [],
   hashtags = [],
