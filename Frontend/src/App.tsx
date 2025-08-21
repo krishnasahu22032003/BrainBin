@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AuthProvider, useAuth } from "./Auth";
 import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
+import SharePage from "./pages/SharePage"; // 👈 import it
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,6 +44,10 @@ const App: React.FC = () => {
                 </ProtectedRoute>
               }
             />
+
+            {/* 👇 Public share route */}
+            <Route path="/share/:shareId" element={<SharePage />} />
+
             <Route path="/" element={<AuthGate />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

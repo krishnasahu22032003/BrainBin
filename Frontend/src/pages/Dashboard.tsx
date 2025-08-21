@@ -123,7 +123,8 @@ const handleNativeShare = async (id: string) => {
 
     if (!res.ok) throw new Error(data.message || "Failed to share");
 
-    const shareUrl = data.url;
+    // Build correct link based on frontend’s origin
+    const shareUrl = `${window.location.origin}/share/${data.shareId}`;
 
     if (navigator.share) {
       await navigator.share({
@@ -132,7 +133,6 @@ const handleNativeShare = async (id: string) => {
         url: shareUrl,
       });
     } else {
-      // fallback: copy to clipboard
       await navigator.clipboard.writeText(shareUrl);
       alert("Link copied to clipboard!");
     }
