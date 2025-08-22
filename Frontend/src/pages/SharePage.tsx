@@ -11,10 +11,12 @@ const SharePage = () => {
     const fetchContent = async () => {
       try {
         const res = await fetch(`http://localhost:3000/api/share/${shareId}`);
-        if (!res.ok) throw new Error("Failed to load content");
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.message || "Failed to load content");
+        }
         const data = await res.json();
         console.log("Shared data:", data);
-        // backend now returns { contents: [...] }
         setContents(data.contents || []);
       } catch (err: any) {
         setError(err.message);
@@ -23,25 +25,54 @@ const SharePage = () => {
     fetchContent();
   }, [shareId]);
 
-  if (error) return <div className="p-6 text-center text-red-500">{error}</div>;
-  if (!contents.length) return <div className="p-6 text-center">Loading…</div>;
+  if (error)
+    return (
+      <div className="p-6 text-center text-red-600 text-lg font-semibold">
+        {error}
+      </div>
+    );
+
+  if (!contents.length)
+    return (
+      <div className="p-6 text-center text-xl font-medium animate-pulse">
+        Loading…
+      </div>
+    );
 
   return (
-    <div className="p-6 grid gap-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">Shared Brain</h1>
-      {contents.map((item) => (
-        <Card
-          key={item._id}
-          Title={item.title}                 // shows in the top bar
-          heading={item.title}               // ✅ replaces "Subheading"
-          points={item.description || []}    // bullet points
-          hashtags={item.tags}
-          link={item.link}
-          date={new Date(item.createdAt).toLocaleDateString()}
-          righticon1={<span>🔗</span>}
-        />
-      ))}
+    <div className="p-6 min-h-screen bg-gray-50">
+      {/* Page Title */}
+      <h1 className="text-4xl md:text-5xl font-extrabold text-center text-gray-900 tracking-tight">
+        Shared Brain
+      </h1>
+
+      {/* Cards Container */}
+      <div className="flex flex-wrap gap-2">
+        {contents.map((item) => (
+          <div
+            key={item._id}
+            className="flex-1 min-w-[320px] h-full  max-w-[420px] transition-transform duration-300 ease-in-out hover:scale-105"
+          >
+            <Card
+              Title={item.title}
+              heading={item.title}
+              points={item.description || []}
+              hashtags={item.tags}
+              link={item.link}
+              date={new Date(item.createdAt).toLocaleDateString()}
+              righticon1={<span>🔗</span>}
+            />
+          </div>
+        ))}
+      </div>
+        <div className="mt-12 text-center text-gray-500">
+        <span className="bg-clip-text text-gray-900 font-semibold">
+          Made with BrainBin
+        </span>
+      </div>
     </div>
+
+    
   );
 };
 

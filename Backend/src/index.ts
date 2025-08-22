@@ -182,6 +182,7 @@ app.get("/api/share/:shareId", async (req, res) => {
       return res.status(404).json({ message: "Share not found" });
     }
 
+    // check expiry
     if (contents[0].shareExpiry && new Date() > contents[0].shareExpiry) {
       return res.status(403).json({ message: "Share link expired" });
     }
@@ -197,6 +198,7 @@ app.get("/api/share/:shareId", async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 });
+
 
 
 
