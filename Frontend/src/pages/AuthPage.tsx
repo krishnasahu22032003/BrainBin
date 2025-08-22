@@ -51,7 +51,7 @@ export default function AuthPage() {
     }
   };
 
-  // password rules
+
   const validPassword =
     password.length >= 5 &&
     password.length <= 50 &&
@@ -59,14 +59,14 @@ export default function AuthPage() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-[#0f4c75] overflow-hidden">
-      {/* Background overlay */}
+  
 <div
   className="absolute inset-0 bg-cover bg-center opacity-90"
   style={{ backgroundImage: "url('/image/bg-img.jpg')" }}
 ></div>
       <div className="absolute inset-0 bg-black/40 backdrop-blur-xs"></div>
 
-      {/* Card */}
+    
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -77,7 +77,7 @@ export default function AuthPage() {
           {mode === "signup" ? "Create your account" : "Welcome back"}
         </h2>
 
-        {/* Tabs */}
+  
         <div className="flex mb-6 rounded-xl bg-white/10 p-1">
           {["signup", "signin"].map((m) => (
             <button
@@ -95,9 +95,9 @@ export default function AuthPage() {
           ))}
         </div>
 
-        {/* Form */}
+   
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Email */}
+  
           <div>
             <label className="block text-sm font-medium text-gray-200 mb-1">
               Email
@@ -115,7 +115,7 @@ export default function AuthPage() {
             </div>
           </div>
 
-          {/* Password */}
+     
           <div>
             <label className="block text-sm font-medium text-gray-200 mb-1">
               Password
@@ -148,7 +148,7 @@ export default function AuthPage() {
             </p>
           </div>
 
-          {/* Button */}
+  
           <motion.button
             type="submit"
             whileHover={{ scale: 1.03 }}

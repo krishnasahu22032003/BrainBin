@@ -17,8 +17,8 @@ const Sidebar: React.FC<SidebarProps> = ({ filterType, setFilterType }) => {
 
   return (
   <aside className="fixed top-0 left-0 h-full w-48 bg-white text-gray-800 flex flex-col p-4 shadow-md">
-    {/* Logo + Title */}
-<div className="flex items-center justify-center ">
+
+<div className="flex items-center  justify-center ">
   <img
     src="/image/logo.png"
     alt="Brain Bin Logo"
@@ -31,7 +31,6 @@ const Sidebar: React.FC<SidebarProps> = ({ filterType, setFilterType }) => {
 
 
 
-    {/* Navigation */}
     <nav className="flex flex-col gap-3 mt-4">
       {links.map((link) => (
         <button
@@ -58,7 +57,6 @@ const Sidebar: React.FC<SidebarProps> = ({ filterType, setFilterType }) => {
       </button>
     </nav>
 
-    {/* Footer */}
     <div className="mt-auto text-center text-sm text-gray-400 italic">
       Your brain’s safe space
     </div>

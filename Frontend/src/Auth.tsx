@@ -29,7 +29,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     queryKey: ["me"],
     queryFn: async () => {
       const res = await fetch(`${API}/me`, { credentials: "include" });
-      if (!res.ok) return null; // not logged in
+      if (!res.ok) return null; 
       return (await res.json()) as { user: { _id: string; email: string } };
     },
     retry: false,
@@ -39,7 +39,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const res = await fetch(`${API}/signin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include", // ✅ critical for cookies
+      credentials: "include", 
       body: JSON.stringify({ email, password }),
     });
     const body = await res.json().catch(() => ({}));

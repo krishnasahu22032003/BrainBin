@@ -1,4 +1,4 @@
-// backend/auth.ts
+
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
@@ -9,7 +9,7 @@ export interface AuthRequest extends Request {
 }
 
 export const auth = (req: AuthRequest, res: Response, next: NextFunction) => {
-  const token = req.cookies?.auth_token;  // 👈 cookie-based
+  const token = req.cookies?.auth_token; 
   if (!token) return res.status(401).json({ message: "Not authenticated" });
 
   try {

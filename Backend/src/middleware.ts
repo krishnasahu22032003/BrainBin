@@ -1,8 +1,9 @@
+// Optional auth middleware if not using cookies based auth
+
 import { verify, JwtPayload } from "jsonwebtoken";
 import JWT_USER_SECRET from "./config/config";
 import { Request, Response, NextFunction } from "express";
 
-// Extend Request to include userId
 declare global {
   namespace Express {
     interface Request {
@@ -24,7 +25,7 @@ export function usermiddleware(req: Request, res: Response, next: NextFunction) 
 
   try {
     const decoded = verify(token, JWT_USER_SECRET as string) as JwtPayload;
-    req.userId = decoded.id; // Make sure your token payload includes 'id'
+    req.userId = decoded.id; 
     next();
   } catch (error) {
     console.error("Token verification failed:", error);

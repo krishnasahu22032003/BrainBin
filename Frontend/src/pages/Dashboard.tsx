@@ -22,11 +22,10 @@ interface CardData {
 function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cards, setCards] = useState<CardData[]>([]);
-  const [filterType, setFilterType] = useState<string>("all"); // ✅ Filter state
-  const logout = useLogout();
+  const [filterType, setFilterType] = useState<string>("all"); 
+  const logout = useLogout()
   const navigate = useNavigate();
 
-  // Fetch cards from backend on mount
   useEffect(() => {
     const fetchCards = async () => {
       try {
@@ -117,13 +116,13 @@ const handleNativeShare = async () => {
   try {
     const res = await fetch(`http://localhost:3000/api/v1/share`, {
       method: "POST",
-      credentials: "include", // so cookie/session is sent
+      credentials: "include", 
     });
 
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to share");
 
-    // Build correct link based on frontend’s origin
+ 
     const shareUrl = `${window.location.origin}/share/${data.shareId}`;
 
     if (navigator.share) {
@@ -142,7 +141,6 @@ const handleNativeShare = async () => {
 };
 
 
-  // ✅ Filter cards before rendering
   const filteredCards =
     filterType === "all"
       ? cards
@@ -165,7 +163,7 @@ const handleNativeShare = async () => {
   variant="secondary"
   size="lg"
   text="Share"
-  onClick={handleNativeShare}   // ✅ no args needed now
+  onClick={handleNativeShare}   
   icon={<GrShareOption />}
 />
       <Button

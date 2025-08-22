@@ -90,7 +90,7 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <div className={wrapperStyle}>
-      {/* Top Bar */}
+  
       <div className={topbarStyle}>
         <div className={titleStyle}>{Title}</div>
         <div className="flex gap-2">
@@ -99,10 +99,9 @@ const Card: React.FC<CardProps> = ({
         </div>
       </div>
 
-      {/* Heading */}
       <h2 className={headingStyle}>{heading}</h2>
 
-      {/* Bullet Points */}
+
       {points.length > 0 && (
         <ul className={listStyle}>
           {points.map((point, idx) => (
@@ -111,7 +110,6 @@ const Card: React.FC<CardProps> = ({
         </ul>
       )}
 
-      {/* Link Rendering */}
       <div className="w-full px-4 pb-4">
         {isYouTube ? (
           <iframe
@@ -155,7 +153,6 @@ const Card: React.FC<CardProps> = ({
         )}
       </div>
 
-      {/* Bottom Hashtags and Date */}
       <div className={bottomBarStyle}>
         <div className="flex gap-2 flex-wrap">
           {hashtags.map((tag, idx) => (

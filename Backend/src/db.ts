@@ -1,6 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
 import dotenv from "dotenv";
-import { string } from "zod";
 dotenv.config();
 
 

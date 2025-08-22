@@ -107,7 +107,7 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-3">
-          {/* Type */}
+    
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Type
@@ -125,7 +125,7 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
             </select>
           </div>
 
-          {/* Title */}
+
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Title
@@ -140,7 +140,6 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
             />
           </div>
 
-          {/* Link */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Link
@@ -155,7 +154,6 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
             />
           </div>
 
-          {/* Tags */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Hashtags
@@ -187,7 +185,7 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
             />
           </div>
 
-          {/* Description */}
+        
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Description (one bullet per line)
@@ -201,7 +199,7 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
             ></textarea>
           </div>
 
-          {/* Submit */}
+  
           <div className="pt-2">
             <button
               type="submit"

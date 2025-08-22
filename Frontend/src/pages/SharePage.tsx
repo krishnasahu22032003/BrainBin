@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Card from "../components/Card"; // adjust path
+import Card from "../components/Card"; 
 
 const SharePage = () => {
   const { shareId } = useParams();
@@ -41,17 +41,16 @@ const SharePage = () => {
 
   return (
     <div className="p-6 min-h-screen bg-gray-50">
-      {/* Page Title */}
+
       <h1 className="text-4xl md:text-5xl font-extrabold text-center text-gray-900 tracking-tight">
         Shared Brain
       </h1>
 
-      {/* Cards Container */}
-      <div className="flex flex-wrap gap-2">
+      <div className="flex justify-start flex-wrap gap-2">
         {contents.map((item) => (
           <div
             key={item._id}
-            className="flex-1 min-w-[320px] h-full  max-w-[420px] transition-transform duration-300 ease-in-out hover:scale-105"
+            className="flex-1 min-w-[320px] h-full flex flex-wrap gap-4  max-w-[420px] transition-transform duration-300 ease-in-out hover:scale-105"
           >
             <Card
               Title={item.title}

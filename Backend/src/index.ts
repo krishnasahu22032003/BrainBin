@@ -1,7 +1,7 @@
 import express from "express"
 import jwt from "jsonwebtoken"
 import { z } from "zod"
-import { UserModel,ContentModel,ShareModel } from "./db"
+import { UserModel,ContentModel, } from "./db"
 import { auth, AuthRequest } from "./auth";
 import bcrypt from "bcrypt"
 import JWT_USER_SECRET from "./config/config"
@@ -12,8 +12,8 @@ const app = express()
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: "http://localhost:5173", // your React dev URL
-  credentials: true,               // ✅ allow cookies
+  origin: "http://localhost:5173", 
+  credentials: true,              
 }));
 app.post("/api/v1/signup", async(req, res) => {
     const requiredbody = z.object({
@@ -74,7 +74,7 @@ app.post("/api/v1/signin", async (req, res) => {
 
   const token = jwt.sign({ id: user._id }, JWT_USER_SECRET, { expiresIn: "7d" });
 
-  // ✅ Set cookie
+ 
   res.cookie("auth_token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", 
@@ -95,7 +95,7 @@ app.post("/api/v1/content",auth,async(req,res)=>{
       tags,
       type,
       description,
-      userId: req.userId, // ✅ Fixed this line
+      userId: req.userId, 
     });
 
     res.status(201).json({
@@ -111,7 +111,7 @@ app.post("/api/v1/content",auth,async(req,res)=>{
 })
 app.get("/api/v1/content",auth,async(req,res)=>{
  try {
-    const userId = req.userId; // added by your middleware
+    const userId = req.userId; 
 
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized: No user ID found" });
@@ -182,7 +182,6 @@ app.get("/api/share/:shareId", async (req, res) => {
       return res.status(404).json({ message: "Share not found" });
     }
 
-    // check expiry
     if (contents[0].shareExpiry && new Date() > contents[0].shareExpiry) {
       return res.status(403).json({ message: "Share link expired" });
     }

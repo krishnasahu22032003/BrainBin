@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 
 import { AuthProvider, useAuth } from "./Auth";
 import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
-import SharePage from "./pages/SharePage"; // 👈 import it
+import SharePage from "./pages/SharePage"; 
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -45,7 +45,7 @@ const App: React.FC = () => {
               }
             />
 
-            {/* 👇 Public share route */}
+      
             <Route path="/share/:shareId" element={<SharePage />} />
 
             <Route path="/" element={<AuthGate />} />
@@ -53,7 +53,7 @@ const App: React.FC = () => {
           </Routes>
         </Router>
       </AuthProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
+
     </QueryClientProvider>
   );
 };
