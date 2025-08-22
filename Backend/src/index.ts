@@ -152,46 +152,52 @@ app.delete("/api/v1/content/:id", auth, async (req, res) => {
     });
   }
 });
-
-app.post("/api/v1/share/:id", async (req, res) => {
+app.post("/api/v1/share", auth, async (req, res) => {
   try {
-    const content = await ContentModel.findById(req.params.id);
-    if (!content) return res.status(404).json({ message: "Content not found" });
+    const contents = await ContentModel.find({ userId: req.userId });
+    if (!contents || contents.length === 0) {
+      return res.status(404).json({ message: "No content to share" });
+    }
 
-    content.shareId = content.shareId || nanoid(8);
-    content.isShared = true;
-    content.shareExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days expiry
-    await content.save();
+    const shareId = nanoid(10);
+    const shareExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
-    // Return only shareId
-    res.json({ shareId: content.shareId });
+    await ContentModel.updateMany(
+      { userId: req.userId },
+      { $set: { shareId, isShared: true, shareExpiry } }
+    );
+
+    return res.json({ shareId });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
 });
 
 app.get("/api/share/:shareId", async (req, res) => {
   try {
-    const content = await ContentModel.findOne({ shareId: req.params.shareId });
+    const contents = await ContentModel.find({ shareId: req.params.shareId });
 
-    if (!content || !content.isShared) {
+    if (!contents || contents.length === 0) {
       return res.status(404).json({ message: "Share not found" });
     }
 
-    if (content.shareExpiry && new Date() > content.shareExpiry) {
+    if (contents[0].shareExpiry && new Date() > contents[0].shareExpiry) {
       return res.status(403).json({ message: "Share link expired" });
     }
 
-    content.accessCount = (content.accessCount || 0) + 1;
-    await content.save();
+    await ContentModel.updateMany(
+      { shareId: req.params.shareId },
+      { $inc: { accessCount: 1 } }
+    );
 
-    res.json({ content });
+    return res.json({ contents });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
 });
+
 
 
 

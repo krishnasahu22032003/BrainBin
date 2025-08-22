@@ -113,14 +113,14 @@ function Dashboard() {
       onError: (err: any) => alert(err.message || "Logout failed"),
     });
   };
-const handleNativeShare = async (id: string) => {
+const handleNativeShare = async () => {
   try {
-    const res = await fetch(`http://localhost:3000/api/v1/share/${id}`, {
+    const res = await fetch(`http://localhost:3000/api/v1/share`, {
       method: "POST",
-      credentials: "include",
+      credentials: "include", // so cookie/session is sent
     });
-    const data = await res.json();
 
+    const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to share");
 
     // Build correct link based on frontend’s origin
@@ -161,14 +161,14 @@ const handleNativeShare = async (id: string) => {
             onClick={() => setIsModalOpen(true)}
             icon={<FaRocket />}
           />
-       <Button
+<Button
   variant="secondary"
   size="lg"
   text="Share"
-  onClick={() => handleNativeShare(cards[0]._id)}   // 👈 now it's () => void
+  onClick={handleNativeShare}   // ✅ no args needed now
   icon={<GrShareOption />}
 />
-          <Button
+      <Button
             variant="secondary"
             size="lg"
             text={logout.isPending ? "Logging out..." : "Logout"}
