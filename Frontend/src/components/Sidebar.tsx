@@ -102,7 +102,7 @@ const Sidebar: React.FC<SidebarProps> = ({ filterType, setFilterType }) => {
         </nav>
 
         {/* Footer */}
-        <div className="mt-auto text-center text-sm text-gray-400 italic">
+        <div className="mt-55 text-center text-sm text-gray-400 italic">
           Your brain’s safe space
         </div>
       </aside>
