@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Card from "../components/Card"; 
+import Card from "../components/Card";
 
 const SharePage = () => {
   const { shareId } = useParams();
@@ -41,16 +41,16 @@ const SharePage = () => {
 
   return (
     <div className="p-6 min-h-screen bg-gray-50">
-
-      <h1 className="text-4xl md:text-5xl font-extrabold text-center text-gray-900 tracking-tight">
+      <h1 className="text-3xl md:text-5xl font-extrabold text-center flex justify-center text-gray-900 tracking-tight">
         Shared Brain
       </h1>
 
-      <div className="flex justify-start flex-wrap gap-2">
+      {/* Same responsive grid as Dashboard */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {contents.map((item) => (
           <div
             key={item._id}
-            className="flex-1 min-w-[320px] h-full flex flex-wrap gap-4  max-w-[420px] transition-transform duration-300 ease-in-out hover:scale-105"
+            className="w-full max-w-sm mx-auto transition-transform duration-300 ease-in-out hover:scale-105"
           >
             <Card
               Title={item.title}
@@ -64,14 +64,13 @@ const SharePage = () => {
           </div>
         ))}
       </div>
-        <div className="mt-12 text-center text-gray-500">
+
+      <div className="mt-12 text-center text-gray-500">
         <span className="bg-clip-text text-gray-900 font-semibold">
           Made with BrainBin
         </span>
       </div>
     </div>
-
-    
   );
 };
 
