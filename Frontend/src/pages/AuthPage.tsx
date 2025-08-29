@@ -58,7 +58,8 @@ export default function AuthPage() {
     /[A-Z]/.test(password);
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-[#0f4c75] overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-[#0f4c75] overflow-hidden px-2 sm:px-4">
+
   
 <div
   className="absolute inset-0 bg-cover bg-center opacity-90"
@@ -67,12 +68,17 @@ export default function AuthPage() {
       <div className="absolute inset-0 bg-black/40 backdrop-blur-xs"></div>
 
     
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="relative z-10 w-full max-w-md rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl shadow-2xl p-8"
-      >
+<motion.div
+  initial={{ opacity: 0, scale: 0.95, y: 20 }}
+  animate={{ opacity: 1, scale: 1, y: 0 }}
+  transition={{ duration: 0.6, ease: "easeOut" }}
+  className="
+    relative z-10 w-full max-w-md
+    rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl shadow-2xl p-8
+    sm:p-6
+    xs:max-w-sm xs:px-4
+  "
+>
         <h2 className="text-3xl font-extrabold text-center text-white drop-shadow mb-6">
           {mode === "signup" ? "Create your account" : "Welcome back"}
         </h2>

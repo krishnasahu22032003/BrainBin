@@ -225,7 +225,7 @@ function Dashboard() {
         </div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {filteredCards.length === 0 && (
             <p className="text-gray-500">No cards yet. Add some content!</p>
           )}
