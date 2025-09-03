@@ -32,7 +32,7 @@ return
     let thrownerror=false
     try{
         const hashedpassword=await bcrypt.hash(password,5)
-        console.log(hashedpassword)
+
         await UserModel.create({
             email:email,
             password:hashedpassword
