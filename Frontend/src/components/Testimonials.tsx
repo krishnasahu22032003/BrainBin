@@ -76,9 +76,9 @@ export default function Testimonials() {
       className="relative py-28 sm:py-32 bg-white overflow-hidden"
     >
       {/* Ambient background */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 left-1/3 h-[420px] w-[420px] rounded-full bg-blue-400/10 blur-[160px]" />
-        <div className="absolute bottom-0 right-0 h-[360px] w-[360px] rounded-full bg-indigo-400/10 blur-[160px]" />
+    
+              <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[440px] w-[440px] rounded-full bg-blue-400/12 blur-[170px]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
