@@ -36,7 +36,7 @@ export default function About() {
 
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
-        {/* Header */}
+
         <div
           className={`
             mx-auto max-w-3xl text-center
@@ -53,9 +53,9 @@ export default function About() {
           </p>
         </div>
 
-        {/* Content grid */}
+
         <div className="mt-20 grid gap-10 lg:grid-cols-3">
-          {/* Block 1 */}
+        
           <div
             className={`
               rounded-2xl border border-blue-100/70 bg-white p-8
@@ -79,7 +79,6 @@ export default function About() {
             </p>
           </div>
 
-          {/* Block 2 (highlighted / creative) */}
           <div
             className={`
               relative rounded-2xl
@@ -111,7 +110,6 @@ export default function About() {
             </p>
           </div>
 
-          {/* Block 3 */}
           <div
             className={`
               rounded-2xl border border-blue-100/70 bg-white p-8

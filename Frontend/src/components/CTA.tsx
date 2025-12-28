@@ -31,9 +31,10 @@ export default function CTA() {
       ref={sectionRef}
       className="relative py-32 sm:py-36 bg-white overflow-hidden"
     >
-      {/* Ambient outer glow */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[560px] w-[560px] rounded-full bg-blue-500/15 blur-[200px]" />
+
+   
+              <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[440px] w-[440px] rounded-full bg-blue-400/12 blur-[170px]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-4xl px-6">
@@ -54,7 +55,6 @@ export default function CTA() {
             hover:shadow-[0_35px_90px_-45px_rgba(37,99,235,0.45)]
           `}
         >
-          {/* Inner reactive glow */}
           <div className="pointer-events-none absolute inset-0">
             <div className="
               absolute -top-32 left-1/2 -translate-x-1/2
@@ -66,9 +66,8 @@ export default function CTA() {
             " />
           </div>
 
-          {/* Content */}
           <div className="relative z-10">
-            {/* Heading */}
+
             <h2
               className={`
                 text-3xl sm:text-4xl font-bold tracking-tight text-neutral-900
@@ -83,7 +82,6 @@ export default function CTA() {
               Give your ideas a place to live
             </h2>
 
-            {/* Description */}
             <p
               className={`
                 mt-6 max-w-2xl mx-auto
@@ -100,7 +98,6 @@ export default function CTA() {
               Build a calm, connected second brain that grows with you.
             </p>
 
-            {/* CTA Button */}
             <div
               className={`
                 mt-12 flex justify-center
@@ -134,7 +131,6 @@ export default function CTA() {
               </HeaderButton>
             </div>
 
-            {/* Reassurance */}
             <p
               className={`
                 mt-6 text-xs text-neutral-500

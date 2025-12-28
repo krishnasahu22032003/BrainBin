@@ -76,13 +76,13 @@ export default function Features() {
       ref={sectionRef}
       className=" relative py-28 sm:py-32 bg-white overflow-hidden"
     >
-      {/* Ambient background */}
+
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[440px] w-[440px] rounded-full bg-blue-400/12 blur-[170px]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
-        {/* Header */}
+
         <div
           className={`
             mx-auto max-w-2xl text-center
@@ -105,7 +105,6 @@ export default function Features() {
           </p>
         </div>
 
-        {/* Cards */}
         <div className="mt-18 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, i) => {
             const Icon = feature.icon;
@@ -129,7 +128,7 @@ export default function Features() {
                 `}
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                {/* Icon */}
+
                 <div className="
                   mb-6 inline-flex h-12 w-12 items-center justify-center
                   rounded-xl
@@ -142,7 +141,6 @@ export default function Features() {
                   <Icon className="h-5 w-5" />
                 </div>
 
-                {/* Title */}
                 <h3 className="
                   text-lg font-semibold text-neutral-900
                   transition-transform duration-300
@@ -150,8 +148,6 @@ export default function Features() {
                 ">
                   {feature.title}
                 </h3>
-
-                {/* Description */}
                 <p className="
                   mt-3 text-sm leading-relaxed text-neutral-600
                   transition-all duration-300

@@ -64,14 +64,13 @@ export default function FAQ() {
       ref={sectionRef}
       className="relative py-28 sm:py-32 bg-white overflow-hidden"
     >
-      {/* Ambient background */}
+
    
               <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[440px] w-[440px] rounded-full bg-blue-400/12 blur-[170px]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-4xl px-6">
-        {/* Header */}
         <div
           className={`
             mx-auto max-w-2xl text-center
@@ -89,7 +88,6 @@ export default function FAQ() {
           </p>
         </div>
 
-        {/* FAQ items */}
         <div className="mt-16 space-y-4">
           {faqs.map((faq, i) => {
             const isOpen = openIndex === i;
@@ -136,7 +134,6 @@ export default function FAQ() {
                   </span>
                 </button>
 
-                {/* Answer */}
                 <div
                   className={`
                     overflow-hidden px-6

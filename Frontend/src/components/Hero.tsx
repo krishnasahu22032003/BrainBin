@@ -24,13 +24,12 @@ const Hero = () => {
         bg-gradient-to-b from-blue-50 via-white to-white
       "
     >
-      {/* Ambient gradients */}
+
       <div className="pointer-events-none absolute -top-40 -left-40 h-[480px] w-[480px] rounded-full bg-blue-400/15 blur-[140px]" />
       <div className="pointer-events-none absolute top-1/4 -right-40 h-[480px] w-[480px] rounded-full bg-indigo-400/15 blur-[140px]" />
 
-      {/* Content */}
       <div className="relative z-10 w-full max-w-5xl px-6 text-center">
-        {/* Badge */}
+
         <div className="
           mx-auto mb-6 inline-flex items-center gap-2
           rounded-full border border-blue-200/60
@@ -43,7 +42,7 @@ const Hero = () => {
           AI-powered second brain for modern learning
         </div>
 
-        {/* Heading */}
+
         <h1 className="
           text-4xl sm:text-5xl lg:text-6xl
           font-bold tracking-tight
@@ -68,7 +67,7 @@ const Hero = () => {
           </span>
         </h1>
 
-        {/* Subheading */}
+     
         <p className="
           mt-6 text-base sm:text-lg
           text-neutral-600 leading-relaxed
@@ -82,29 +81,28 @@ const Hero = () => {
           lose valuable information again.
         </p>
 
-        {/* Supporting line */}
         <div className="mt-4 inline-flex items-center gap-2 text-sm text-neutral-500">
           <TrendingUp className="h-4 w-4 text-blue-600" />
           Learn faster. Think clearer. Grow continuously.
         </div>
 
-        {/* CTA */}
+  
         <div className="mt-7 flex items-center justify-center">
           <HeaderButton variant="primary" to="/signup">
             Build Your Second Brain
           </HeaderButton>
         </div>
 
-        {/* Micro hint */}
+
         <div className="mt-5 inline-flex items-center gap-2 text-xs text-neutral-500">
           <Share2 className="h-4 w-4" />
           Share your brain with others. Collaborate effortlessly.
         </div>
 
-        {/* ✅ TRUSTED BY USERS */}
-     {/* ✅ TRUSTED BY USERS */}
+  
+
 <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-  {/* Avatars */}
+
   <div className="flex items-center">
     {users.map((src, i) => (
       <div
@@ -135,7 +133,6 @@ const Hero = () => {
     ))}
   </div>
 
-  {/* Text */}
   <div className="text-sm text-neutral-600 text-center sm:text-left leading-tight">
     <div className="font-medium text-neutral-900">
       Trusted by 1000+ users

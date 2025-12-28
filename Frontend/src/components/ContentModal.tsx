@@ -74,7 +74,7 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
       description: descriptionBullets,
     });
 
-    // reset
+
     setType(contentTypes[0]);
     setLink("");
     setTitle("");

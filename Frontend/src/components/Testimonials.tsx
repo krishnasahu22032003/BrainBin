@@ -75,14 +75,14 @@ export default function Testimonials() {
       ref={sectionRef}
       className="relative py-28 sm:py-32 bg-white overflow-hidden"
     >
-      {/* Ambient background */}
+   
     
               <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[440px] w-[440px] rounded-full bg-blue-400/12 blur-[170px]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
-        {/* Header */}
+
         <div
           className={`
             mx-auto max-w-2xl text-center
@@ -100,7 +100,6 @@ export default function Testimonials() {
           </p>
         </div>
 
-        {/* Testimonials grid */}
         <div className="mt-20 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((t, i) => (
             <div
@@ -122,7 +121,7 @@ export default function Testimonials() {
               `}
               style={{ transitionDelay: `${i * 120}ms` }}
             >
-              {/* Quote icon */}
+
               <div className="
                 mb-6 inline-flex h-9 w-9 items-center justify-center
                 rounded-lg bg-blue-50 text-blue-600
@@ -130,12 +129,10 @@ export default function Testimonials() {
                 <Quote className="h-4 w-4" />
               </div>
 
-              {/* Quote */}
               <p className="text-sm leading-relaxed text-neutral-700">
                 “{t.quote}”
               </p>
 
-              {/* Author */}
               <div className="mt-8 flex items-center gap-4">
                 <img
                   src={t.image}

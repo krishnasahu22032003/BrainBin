@@ -28,7 +28,7 @@ const Sidebar: React.FC<SidebarProps> = ({ filterType, setFilterType }) => {
 
   return (
     <>
-      {/* Mobile Toggle Button (Top-Right) */}
+   
       <div className="md:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -38,7 +38,7 @@ const Sidebar: React.FC<SidebarProps> = ({ filterType, setFilterType }) => {
         </button>
       </div>
 
-      {/* Sidebar */}
+   
       <aside
         className={`
           fixed top-0 left-0 h-full w-48 bg-white text-gray-800 flex flex-col p-4 shadow-md
@@ -48,7 +48,7 @@ const Sidebar: React.FC<SidebarProps> = ({ filterType, setFilterType }) => {
           md:block
         `}
       >
-        {/* Logo */}
+
         <div className="flex items-center justify-center">
           <img
             src="/image/logo.png"
@@ -60,14 +60,13 @@ const Sidebar: React.FC<SidebarProps> = ({ filterType, setFilterType }) => {
           </h1>
         </div>
 
-        {/* Nav Links */}
         <nav className="flex flex-col gap-3 mt-4">
           {links.map((link) => (
             <button
               key={link.name}
               onClick={() => {
                 setFilterType(link.type);
-                setIsOpen(false); // close sidebar on mobile
+                setIsOpen(false); 
               }}
               className={`
                 flex items-center gap-3 px-3 py-2 rounded transition-colors duration-200
@@ -86,7 +85,7 @@ const Sidebar: React.FC<SidebarProps> = ({ filterType, setFilterType }) => {
           <button
             onClick={() => {
               setFilterType("all");
-              setIsOpen(false); // close sidebar on mobile
+              setIsOpen(false); 
             }}
             className={`
               mt-3 px-3 py-2 rounded transition-colors duration-200
@@ -101,7 +100,7 @@ const Sidebar: React.FC<SidebarProps> = ({ filterType, setFilterType }) => {
           </button>
         </nav>
 
-        {/* Footer */}
+    
         <div className="mt-55 text-center text-sm text-gray-400 italic">
           Your brain’s safe space
         </div>
