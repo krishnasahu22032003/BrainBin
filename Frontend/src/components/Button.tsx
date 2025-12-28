@@ -10,11 +10,11 @@ export interface ButtonProps {
 }
 
 export const Button:React.FC<ButtonProps> = ({ variant, size, text, icon, onClick }) => {
-  const baseClasses = "inline-flex items-center justify-center rounded-xl mt-2 font-semibold transition-all duration-200 focus:outline-none";
+  const baseClasses = "inline-flex items-center justify-center rounded-xl mt-2 font-semibold transition-all cursor-pointer duration-200 focus:outline-none";
 
   const variantStyles: Record<ButtonProps["variant"], string> = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700 active:scale-95 shadow-md",
-    secondary: "bg-gray-200 text-black hover:bg-gray-300 active:scale-95 shadow-sm",
+    primary: "bg-blue-600 text-white hover:bg-blue-700 active:scale-95 shadow-md cursor-pointer",
+    secondary: "bg-gray-200 text-black hover:bg-gray-300 active:scale-95 shadow-sm cursor-pointer",
   };
 
   const sizeStyles: Record<ButtonProps["size"], string> = {

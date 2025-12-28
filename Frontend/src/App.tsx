@@ -2,11 +2,12 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-
-import { AuthProvider, useAuth } from "./Auth";
+import Landingpage from "./pages/landingpage";
 import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
-import SharePage from "./pages/SharePage"; 
+import SharePage from "./pages/SharePage";
+
+import { AuthProvider, useAuth } from "./Auth";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,17 +16,35 @@ const queryClient = new QueryClient({
   },
 });
 
+/* -------------------- Protected Route -------------------- */
 const ProtectedRoute: React.FC<{ children: React.ReactElement }> = ({ children }) => {
   const { loading, isAuthenticated } = useAuth();
-  if (loading) return <div className="p-6 text-center">Checking session…</div>;
-  if (!isAuthenticated) return <Navigate to="/signin" replace />;
+
+  if (loading) {
+    return <div className="p-6 text-center">Checking session…</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" replace />;
+  }
+
   return children;
 };
 
-const AuthGate: React.FC = () => {
+/* -------------------- Public Only Route -------------------- */
+/* Logged-in users should NOT see signin/signup again */
+const PublicOnlyRoute: React.FC<{ children: React.ReactElement }> = ({ children }) => {
   const { loading, isAuthenticated } = useAuth();
-  if (loading) return <div className="p-6 text-center">Checking session…</div>;
-  return <Navigate to={isAuthenticated ? "/dashboard" : "/signin"} replace />;
+
+  if (loading) {
+    return <div className="p-6 text-center">Checking session…</div>;
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return children;
 };
 
 const App: React.FC = () => {
@@ -34,8 +53,28 @@ const App: React.FC = () => {
       <AuthProvider>
         <Router>
           <Routes>
-            <Route path="/signin" element={<AuthPage />} />
-            <Route path="/signup" element={<AuthPage />} />
+            {/* 🌐 Landing Page */}
+            <Route path="/" element={<Landingpage />} />
+
+            {/* 🔓 Auth Pages */}
+            <Route
+              path="/signin"
+              element={
+                <PublicOnlyRoute>
+                  <AuthPage />
+                </PublicOnlyRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <PublicOnlyRoute>
+                  <AuthPage />
+                </PublicOnlyRoute>
+              }
+            />
+
+            {/* 🔒 Protected Pages */}
             <Route
               path="/dashboard"
               element={
@@ -45,15 +84,14 @@ const App: React.FC = () => {
               }
             />
 
-      
+            {/* 🔗 Public Share Page */}
             <Route path="/share/:shareId" element={<SharePage />} />
 
-            <Route path="/" element={<AuthGate />} />
+            {/* ❌ Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Router>
       </AuthProvider>
-
     </QueryClientProvider>
   );
 };
