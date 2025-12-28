@@ -51,49 +51,44 @@ export default function AuthPage() {
     }
   };
 
-
   const validPassword =
     password.length >= 5 &&
     password.length <= 50 &&
     /[A-Z]/.test(password);
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-[#0f4c75] overflow-hidden px-2 sm:px-4">
+    <div className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden px-2 sm:px-4">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[520px] w-[520px] rounded-full bg-blue-400/20 blur-[200px]" />
+        <div className="absolute bottom-0 right-1/4 h-[420px] w-[420px] rounded-full bg-indigo-400/15 blur-[200px]" />
+      </div>
 
-  
-<div
-  className="absolute inset-0 bg-cover bg-center opacity-90"
-  style={{ backgroundImage: "url('/image/bg-img.jpg')" }}
-></div>
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-xs"></div>
-
-    
-<motion.div
-  initial={{ opacity: 0, scale: 0.95, y: 20 }}
-  animate={{ opacity: 1, scale: 1, y: 0 }}
-  transition={{ duration: 0.6, ease: "easeOut" }}
-  className="
-    relative z-10 w-full max-w-md
-    rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl shadow-2xl p-8
-    sm:p-6
-    xs:max-w-sm xs:px-4
-  "
->
-        <h2 className="text-3xl font-extrabold text-center text-white drop-shadow mb-6">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96, y: 24 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="
+          relative z-10 w-full max-w-md
+          rounded-2xl bg-white
+          border border-blue-100
+          shadow-[0_30px_80px_-40px_rgba(37,99,235,0.35)]
+          p-8 sm:p-6
+        "
+      >
+        <h2 className="text-3xl font-bold text-center text-neutral-900 mb-6">
           {mode === "signup" ? "Create your account" : "Welcome back"}
         </h2>
 
-  
-        <div className="flex mb-6 rounded-xl bg-white/10 p-1">
+        <div className="flex mb-6 rounded-xl bg-blue-50 p-1">
           {["signup", "signin"].map((m) => (
             <button
               key={m}
               onClick={() => setMode(m as AuthMode)}
               type="button"
-              className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${
+              className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
                 mode === m
-                  ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md"
-                  : "text-gray-300 hover:text-white"
+                  ? "bg-white text-blue-700 shadow-sm"
+                  : "text-blue-600 hover:text-blue-800"
               }`}
             >
               {m === "signup" ? "Sign Up" : "Sign In"}
@@ -101,19 +96,23 @@ export default function AuthPage() {
           ))}
         </div>
 
-   
         <form onSubmit={handleSubmit} className="space-y-6">
-  
           <div>
-            <label className="block text-sm font-medium text-gray-200 mb-1">
+            <label className="block text-sm font-medium text-neutral-700 mb-1">
               Email
             </label>
             <div className="relative">
-              <FaEnvelope className="absolute left-3 top-3 text-gray-400" />
+              <FaEnvelope className="absolute left-3 top-3 text-neutral-400" />
               <input
                 type="email"
                 placeholder="you@example.com"
-                className="w-full pl-10 p-3 rounded-lg border border-gray-400/40 bg-white/20 text-white placeholder-gray-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                className="
+                  w-full pl-10 p-3 rounded-lg
+                  border border-neutral-300
+                  bg-white text-neutral-900
+                  placeholder-neutral-400
+                  focus:ring-2 focus:ring-blue-500 focus:outline-none
+                "
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -121,21 +120,18 @@ export default function AuthPage() {
             </div>
           </div>
 
-     
           <div>
-            <label className="block text-sm font-medium text-gray-200 mb-1">
+            <label className="block text-sm font-medium text-neutral-700 mb-1">
               Password
             </label>
             <div className="relative">
-              <FaLock className="absolute left-3 top-3 text-gray-400" />
+              <FaLock className="absolute left-3 top-3 text-neutral-400" />
               <input
                 type="password"
                 placeholder="••••••••"
                 className={`w-full pl-10 p-3 rounded-lg border ${
-                  validPassword
-                    ? "border-green-400"
-                    : "border-red-400"
-                } bg-white/20 text-white placeholder-gray-300 focus:ring-2 focus:outline-none ${
+                  validPassword ? "border-green-400" : "border-red-400"
+                } bg-white text-neutral-900 placeholder-neutral-400 focus:ring-2 focus:outline-none ${
                   validPassword ? "focus:ring-green-500" : "focus:ring-red-500"
                 }`}
                 value={password}
@@ -143,24 +139,28 @@ export default function AuthPage() {
                 required
               />
               {validPassword ? (
-                <FaCheckCircle className="absolute right-3 top-3 text-green-400" />
+                <FaCheckCircle className="absolute right-3 top-3 text-green-500" />
               ) : (
-                <FaTimesCircle className="absolute right-3 top-3 text-red-400" />
+                <FaTimesCircle className="absolute right-3 top-3 text-red-500" />
               )}
             </div>
-            <p className="mt-1 text-xs text-gray-300">
-              Must include <span className="text-white font-semibold">1 uppercase letter</span>, 
-              min <span className="text-white font-semibold">5</span> chars, max <span className="text-white font-semibold">50</span>.
+            <p className="mt-1 text-xs text-neutral-500">
+              Must include <span className="font-semibold">1 uppercase</span>,
+              min <span className="font-semibold">5</span> chars.
             </p>
           </div>
 
-  
           <motion.button
             type="submit"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             disabled={loading}
-            className="relative w-full py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all overflow-hidden"
+            className="
+              relative w-full py-3 rounded-lg
+              bg-gradient-to-r from-blue-600 to-indigo-600
+              text-white font-semibold
+              shadow-lg hover:shadow-xl transition-all cursor-pointer
+            "
           >
             {loading ? (
               <span className="animate-pulse">Processing...</span>
