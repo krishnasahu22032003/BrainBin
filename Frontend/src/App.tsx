@@ -16,7 +16,6 @@ const queryClient = new QueryClient({
   },
 });
 
-/* -------------------- Protected Route -------------------- */
 const ProtectedRoute: React.FC<{ children: React.ReactElement }> = ({ children }) => {
   const { loading, isAuthenticated } = useAuth();
 
@@ -31,7 +30,6 @@ const ProtectedRoute: React.FC<{ children: React.ReactElement }> = ({ children }
   return children;
 };
 
-/* -------------------- Public Only Route -------------------- */
 /* Logged-in users should NOT see signin/signup again */
 const PublicOnlyRoute: React.FC<{ children: React.ReactElement }> = ({ children }) => {
   const { loading, isAuthenticated } = useAuth();
@@ -53,10 +51,10 @@ const App: React.FC = () => {
       <AuthProvider>
         <Router>
           <Routes>
-            {/* 🌐 Landing Page */}
+            {/* Landing Page */}
             <Route path="/" element={<Landingpage />} />
 
-            {/* 🔓 Auth Pages */}
+            {/* Auth Pages */}
             <Route
               path="/signin"
               element={
@@ -74,7 +72,7 @@ const App: React.FC = () => {
               }
             />
 
-            {/* 🔒 Protected Pages */}
+            {/* Protected Pages */}
             <Route
               path="/dashboard"
               element={
@@ -84,10 +82,10 @@ const App: React.FC = () => {
               }
             />
 
-            {/* 🔗 Public Share Page */}
+            {/*Public Share Page */}
             <Route path="/share/:shareId" element={<SharePage />} />
 
-            {/* ❌ Fallback */}
+            {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Router>
