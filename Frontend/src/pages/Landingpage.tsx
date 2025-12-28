@@ -1,4 +1,5 @@
 import About from "../components/About"
+import CTA from "../components/CTA"
 import FAQ from "../components/FAQ"
 import Features from "../components/Features"
 import Header from "../components/Header"
@@ -14,6 +15,7 @@ const landingpage = () => {
       <About/>
       <Testimonials/>
       <FAQ/>
+      <CTA/>
     </div>
   )
 }
