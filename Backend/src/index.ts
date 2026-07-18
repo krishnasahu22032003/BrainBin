@@ -174,7 +174,7 @@ app.post("/api/v1/share", auth, async (req, res) => {
   }
 });
 
-app.get("/api/share/:shareId", async (req, res) => {
+app.get("/api/v1/share/:shareId", async (req, res) => {
   try {
     const contents = await ContentModel.find({ shareId: req.params.shareId });
 
@@ -199,4 +199,6 @@ app.get("/api/share/:shareId", async (req, res) => {
 });
 
 
-app.listen(process.env.PORT || 3003)
+app.listen(process.env.PORT || 3003 , ()=>{
+  console.log(`App is running on ${process.env.PORT}`)
+})

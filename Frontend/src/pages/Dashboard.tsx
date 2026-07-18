@@ -9,6 +9,7 @@ import ContentModal from "../components/ContentModal";
 import Sidebar from "../components/Sidebar";
 import { useLogout } from "../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
+import ENV_SECRETS from "../lib/SECRETS";
 
 interface CardData {
   _id: string;
@@ -25,14 +26,14 @@ function Dashboard() {
   const [cards, setCards] = useState<CardData[]>([]);
   const [filterType, setFilterType] = useState<string>("all");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const API = ENV_SECRETS.VITE_API_URL
   const logout = useLogout();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/v1/content", {
+        const res = await fetch(`API/content`, {
           credentials: "include",
         });
         const data = await res.json();
@@ -65,7 +66,7 @@ function Dashboard() {
     description: string[];
   }) => {
     try {
-      const res = await fetch("http://localhost:3000/api/v1/content", {
+      const res = await fetch("API/content", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -94,7 +95,7 @@ function Dashboard() {
 
   const handleDeleteContent = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/content/${id}`, {
+      const res = await fetch(`API/content/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -118,7 +119,7 @@ function Dashboard() {
 
   const handleNativeShare = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/share`, {
+      const res = await fetch(`API/share`, {
         method: "POST",
         credentials: "include",
       });

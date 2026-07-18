@@ -3,9 +3,10 @@ import { motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../Auth";
 import { FaCheckCircle, FaTimesCircle, FaLock, FaEnvelope } from "react-icons/fa";
+import "dotenv/config" ;
 
 type AuthMode = "signup" | "signin";
-const API = "http://localhost:3000/api/v1";
+const API = import.meta.env.VITE_API_URL ;
 
 export default function AuthPage() {
   const [mode, setMode] = useState<AuthMode>("signup");

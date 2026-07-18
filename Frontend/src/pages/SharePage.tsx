@@ -1,16 +1,17 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Card from "../components/Card";
+import ENV_SECRETS from "../lib/SECRETS";
 
 const SharePage = () => {
   const { shareId } = useParams();
   const [contents, setContents] = useState<any[]>([]);
   const [error, setError] = useState("");
-
+  const API = ENV_SECRETS.VITE_API_URL;
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/share/${shareId}`);
+        const res = await fetch(`API/share/${shareId}`);
         if (!res.ok) {
           const errData = await res.json();
           throw new Error(errData.message || "Failed to load content");

@@ -1,13 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import ENV_SECRETS from "../lib/SECRETS";
 
 export function useLogout() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-
+  const API = ENV_SECRETS.VITE_API_URL
   return useMutation({
     mutationFn: async () => {
-      const res = await fetch("http://localhost:3000/api/v1/logout", {
+      const res = await fetch("API/logout", {
         method: "POST",
         credentials: "include", // send cookies
       });

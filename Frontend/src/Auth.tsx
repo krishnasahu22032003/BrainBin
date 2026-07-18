@@ -1,8 +1,9 @@
 // src/auth.tsx
 import React, { createContext, useContext, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import ENV_SECRETS from "./lib/SECRETS";
 
-const API = "http://localhost:3000/api/v1";
+const API = ENV_SECRETS.VITE_API_URL;
 
 type Session = { user: { _id: string; email: string } } | null;
 
