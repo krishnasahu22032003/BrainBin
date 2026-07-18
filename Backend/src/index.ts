@@ -14,7 +14,7 @@ const app = express()
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: "http://localhost:5173", 
+  origin: "https://brainbin.krishnastack.com", 
   credentials: true,              
 }));
 
@@ -24,7 +24,7 @@ app.get("/api/v1/health/check" , (req , res)=>{
     success:true,
     message:"App is running Fine"
   });
-  
+
 });
 
 app.post("/api/v1/signup", async(req, res) => {
