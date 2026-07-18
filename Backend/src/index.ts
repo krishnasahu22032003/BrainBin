@@ -1,7 +1,7 @@
 import express from "express"
 import jwt from "jsonwebtoken"
 import { z } from "zod"
-import { UserModel,ContentModel, } from "./db"
+import { UserModel,ContentModel, ShareModel, } from "./db"
 import { auth, AuthRequest } from "./auth";
 import bcrypt from "bcrypt"
 import JWT_USER_SECRET from "./config/config"
@@ -152,22 +152,34 @@ app.delete("/api/v1/content/:id", auth, async (req, res) => {
     });
   }
 });
-app.post("/api/v1/share", auth, async (req, res) => {
+
+
+app.post("/api/v1/share", auth, async (req: AuthRequest, res) => {
   try {
-    const contents = await ContentModel.find({ userId: req.userId });
-    if (!contents || contents.length === 0) {
+    const contentCount = await ContentModel.countDocuments({
+      userId: req.userId,
+    });
+
+    if (contentCount === 0) {
       return res.status(404).json({ message: "No content to share" });
     }
 
-    const shareId = nanoid(10);
     const shareExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
-    await ContentModel.updateMany(
-      { userId: req.userId },
-      { $set: { shareId, isShared: true, shareExpiry } }
-    );
+    let share = await ShareModel.findOne({ userId: req.userId });
 
-    return res.json({ shareId });
+    if (share) {
+      share.shareExpiry = shareExpiry;
+      await share.save();
+    } else {
+      share = await ShareModel.create({
+        userId: req.userId,
+        shareId: nanoid(10),
+        shareExpiry,
+      });
+    }
+
+    return res.json({ shareId: share.shareId });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Server error" });
