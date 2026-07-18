@@ -188,20 +188,17 @@ app.post("/api/v1/share", auth, async (req: AuthRequest, res) => {
 
 app.get("/api/v1/share/:shareId", async (req, res) => {
   try {
-    const contents = await ContentModel.find({ shareId: req.params.shareId });
+    const share = await ShareModel.findOne({ shareId: req.params.shareId });
 
-    if (!contents || contents.length === 0) {
-      return res.status(404).json({ message: "Share not found" });
+    if (!share) {
+      return res.status(404).json({ message: "Share link not found" });
     }
 
-    if (contents[0].shareExpiry && new Date() > contents[0].shareExpiry) {
-      return res.status(403).json({ message: "Share link expired" });
+    if (share.shareExpiry.getTime() < Date.now()) {
+      return res.status(410).json({ message: "Share link has expired" });
     }
 
-    await ContentModel.updateMany(
-      { shareId: req.params.shareId },
-      { $inc: { accessCount: 1 } }
-    );
+    const contents = await ContentModel.find({ userId: share.userId });
 
     return res.json({ contents });
   } catch (err) {
