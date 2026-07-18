@@ -18,6 +18,15 @@ app.use(cors({
   credentials: true,              
 }));
 
+app.get("/api/v1/health/check" , (req , res)=>{
+
+  return res.status(200).json({
+    success:true,
+    message:"App is running Fine"
+  });
+  
+});
+
 app.post("/api/v1/signup", async(req, res) => {
     const requiredbody = z.object({
         email: z.email().min(5).max(50),
