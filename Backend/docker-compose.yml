@@ -1,0 +1,15 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    image: brainbin-backend
+
+    ports:
+      - "3003:3003"
+
+    env_file:
+      - .env
+
+    restart: unless-stopped
