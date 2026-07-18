@@ -53,7 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({ filterType, setFilterType }) => {
           <img
             src="/image/logo.png"
             alt="Brain Bin Logo"
-            className="w-16 h-16 -mr-4 object-contain"
+            className="w-16 h-16 -mr-3 object-contain"
           />
           <h1 className="text-xl font-bold tracking-wide text-gray-800">
             Brain Bin

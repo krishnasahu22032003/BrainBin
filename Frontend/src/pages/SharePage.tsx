@@ -17,7 +17,6 @@ const SharePage = () => {
           throw new Error(errData.message || "Failed to load content");
         }
         const data = await res.json();
-        console.log("Shared data:", data);
         setContents(data.contents || []);
       } catch (err: any) {
         setError(err.message);

@@ -1,0 +1,50 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="brainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="nodeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e9d5ff"/>
+      <stop offset="100%" stop-color="#c4b5fd"/>
+    </linearGradient>
+  </defs>
+
+  <g>
+    <path d="
+      M256 96
+      C 210 96 176 128 172 166
+      C 140 174 116 202 116 236
+      C 116 254 122 270 132 282
+      C 122 296 116 314 116 332
+      C 116 372 148 404 188 408
+      C 198 434 224 452 256 452
+      C 288 452 314 434 324 408
+      C 364 404 396 372 396 332
+      C 396 314 390 296 380 282
+      C 390 270 396 254 396 236
+      C 396 202 372 174 340 166
+      C 336 128 302 96 256 96
+      Z"
+      fill="url(#brainGradient)"/>
+
+    <path d="M256 108 C 256 200 256 300 256 440"
+      stroke="#4c1d95" stroke-width="6" stroke-linecap="round" opacity="0.35"/>
+
+    <path d="M172 166 C 200 190 200 230 176 258 C 200 280 200 320 178 344 C 200 368 200 392 188 408"
+      stroke="#4c1d95" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.35"/>
+
+    <path d="M340 166 C 312 190 312 230 336 258 C 312 280 312 320 334 344 C 312 368 312 392 324 408"
+      stroke="#4c1d95" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.35"/>
+
+    <circle cx="172" cy="166" r="10" fill="url(#nodeGradient)"/>
+    <circle cx="340" cy="166" r="10" fill="url(#nodeGradient)"/>
+    <circle cx="132" cy="282" r="9" fill="url(#nodeGradient)"/>
+    <circle cx="380" cy="282" r="9" fill="url(#nodeGradient)"/>
+    <circle cx="188" cy="408" r="9" fill="url(#nodeGradient)"/>
+    <circle cx="324" cy="408" r="9" fill="url(#nodeGradient)"/>
+    <circle cx="256" cy="108" r="10" fill="url(#nodeGradient)"/>
+    <circle cx="256" cy="440" r="10" fill="url(#nodeGradient)"/>
+  </g>
+</svg>
