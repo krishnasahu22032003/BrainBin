@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "../components/Button";
 import { FaRocket, FaSignOutAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { GrShareOption } from "react-icons/gr";
-import { FiMenu, FiX } from "react-icons/fi";
 import Card from "../components/Card";
 import ContentModal from "../components/ContentModal";
 import Sidebar from "../components/Sidebar";
@@ -21,11 +20,18 @@ interface CardData {
   link: string;
 }
 
+interface UserData {
+  _id: string;
+  email: string;
+}
+
 function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cards, setCards] = useState<CardData[]>([]);
   const [filterType, setFilterType] = useState<string>("all");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState<UserData | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const API = ENV_SECRETS.VITE_API_URL
   const logout = useLogout();
   const navigate = useNavigate();
@@ -33,7 +39,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const res = await fetch(`API/content`, {
+        const res = await fetch(`${API}/content`, {
           credentials: "include",
         });
         const data = await res.json();
@@ -55,7 +61,35 @@ function Dashboard() {
       }
     };
 
+    const fetchUser = async () => {
+      try {
+        const res = await fetch(`${API}/me`, {
+          credentials: "include",
+        });
+        const data = await res.json();
+        if (res.ok && data.user) {
+          setUser(data.user);
+        }
+      } catch (err: any) {
+        console.error("Error fetching user:", err.message);
+      }
+    };
+
     fetchCards();
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleAddContent = async (data: {
@@ -66,7 +100,7 @@ function Dashboard() {
     description: string[];
   }) => {
     try {
-      const res = await fetch("API/content", {
+      const res = await fetch(`${API}/content`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -95,7 +129,7 @@ function Dashboard() {
 
   const handleDeleteContent = async (id: string) => {
     try {
-      const res = await fetch(`API/content/${id}`, {
+      const res = await fetch(`${API}/content/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -119,7 +153,7 @@ function Dashboard() {
 
   const handleNativeShare = async () => {
     try {
-      const res = await fetch(`API/share`, {
+      const res = await fetch(`${API}/share`, {
         method: "POST",
         credentials: "include",
       });
@@ -149,14 +183,14 @@ function Dashboard() {
       ? cards
       : cards.filter((c) => c.Title.toLowerCase() === filterType.toLowerCase());
 
+  const avatarLetter = user?.email ? user.email.charAt(0).toUpperCase() : "U";
+
   return (
     <>
       <Sidebar filterType={filterType} setFilterType={setFilterType} />
 
-      {/* main wrapper - margin only on desktop */}
       <div className="p-4 md:ml-48">
-        {/* Desktop Buttons */}
-        <div className="hidden md:flex justify-end gap-2">
+        <div className="hidden md:flex flex-wrap justify-end gap-2">
           <Button
             variant="primary"
             size="lg"
@@ -180,53 +214,69 @@ function Dashboard() {
           />
         </div>
 
-        {/* Mobile Hamburger */}
-        <div className="md:hidden flex justify-end relative">
-          <button
-            className="text-3xl text-gray-800"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <FiX /> : <FiMenu />}
-          </button>
+        <div className="flex md:hidden justify-end">
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setIsDropdownOpen((prev) => !prev)}
+              className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 text-white font-semibold text-base flex items-center justify-center shadow-md ring-2 ring-white active:scale-95 transition-transform duration-150"
+            >
+              {avatarLetter}
+            </button>
 
-          {isMenuOpen && (
-            <div className="absolute top-10 right-0 bg-white shadow-lg rounded-md flex flex-col gap-2 p-3 z-50">
-              <Button
-                variant="primary"
-                size="lg"
-                text="Add content"
-                onClick={() => {
-                  setIsModalOpen(true);
-                  setIsMenuOpen(false);
-                }}
-                icon={<FaRocket />}
-              />
-              <Button
-                variant="secondary"
-                size="lg"
-                text="Share"
-                onClick={() => {
-                  handleNativeShare();
-                  setIsMenuOpen(false);
-                }}
-                icon={<GrShareOption />}
-              />
-              <Button
-                variant="secondary"
-                size="lg"
-                text={logout.isPending ? "Logging out..." : "Logout"}
-                onClick={() => {
-                  handleLogout();
-                  setIsMenuOpen(false);
-                }}
-                icon={<FaSignOutAlt />}
-              />
-            </div>
-          )}
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                {user?.email && (
+                  <div className="px-4 py-3 border-b border-gray-100">
+                    <p className="text-xs text-gray-400">Signed in as</p>
+                    <p className="text-sm font-medium text-gray-800 truncate">
+                      {user.email}
+                    </p>
+                  </div>
+                )}
+
+                <div className="py-1">
+                  <button
+                    onClick={() => {
+                      setIsModalOpen(true);
+                      setIsDropdownOpen(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 active:bg-gray-100 transition-colors"
+                  >
+                    <FaRocket className="text-violet-600 text-sm" />
+                    <span>Add content</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      handleNativeShare();
+                      setIsDropdownOpen(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 active:bg-gray-100 transition-colors"
+                  >
+                    <GrShareOption className="text-gray-500 text-sm" />
+                    <span>Share</span>
+                  </button>
+                </div>
+
+                <div className="border-t border-gray-100 py-1">
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsDropdownOpen(false);
+                    }}
+                    disabled={logout.isPending}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 active:bg-red-100 transition-colors disabled:opacity-60"
+                  >
+                    <FaSignOutAlt className="text-sm" />
+                    <span>{logout.isPending ? "Logging out..." : "Logout"}</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
           {filteredCards.length === 0 && (
             <p className="text-gray-500">No cards yet. Add some content!</p>
           )}

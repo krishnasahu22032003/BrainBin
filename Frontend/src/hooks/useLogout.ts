@@ -8,7 +8,7 @@ export function useLogout() {
   const API = ENV_SECRETS.VITE_API_URL
   return useMutation({
     mutationFn: async () => {
-      const res = await fetch("API/logout", {
+      const res = await fetch(`${API}/logout`, {
         method: "POST",
         credentials: "include", // send cookies
       });

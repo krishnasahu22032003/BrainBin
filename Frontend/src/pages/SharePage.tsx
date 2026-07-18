@@ -11,7 +11,7 @@ const SharePage = () => {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const res = await fetch(`API/share/${shareId}`);
+        const res = await fetch(`${API}/share/${shareId}`);
         if (!res.ok) {
           const errData = await res.json();
           throw new Error(errData.message || "Failed to load content");

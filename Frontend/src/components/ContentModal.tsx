@@ -97,7 +97,7 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
       >
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-black dark:hover:text-white text-2xl"
+          className="cursor-pointer absolute top-3 right-3 text-gray-500 hover:text-black dark:hover:text-white text-2xl"
         >
           <IoMdClose />
         </button>
@@ -203,7 +203,7 @@ const ContentModal: React.FC<ContentModalProps> = ({ open, onClose, onSubmit }) 
           <div className="pt-2">
             <button
               type="submit"
-              className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+              className="w-full cursor-pointer px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
             >
               Submit
             </button>

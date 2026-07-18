@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../Auth";
 import { FaCheckCircle, FaTimesCircle, FaLock, FaEnvelope } from "react-icons/fa";
-import "dotenv/config" ;
 
 type AuthMode = "signup" | "signin";
 const API = import.meta.env.VITE_API_URL ;
