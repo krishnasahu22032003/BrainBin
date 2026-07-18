@@ -30,6 +30,7 @@ const HeaderButton: React.FC<ButtonProps> = ({
       {variant === "primary" && (
         <span
           className="
+            
             pointer-events-none
             absolute -inset-[0.5px] rounded-md
             bg-gradient-to-r from-blue-400/30 via-indigo-400/30 to-blue-500/30
@@ -41,6 +42,7 @@ const HeaderButton: React.FC<ButtonProps> = ({
       {variant === "secondary" && (
         <span
           className="
+          
             pointer-events-none
             absolute inset-0 rounded-md
             bg-gradient-to-r from-neutral-100 via-neutral-50 to-neutral-100
@@ -62,7 +64,7 @@ const HeaderButton: React.FC<ButtonProps> = ({
         `,
           variant === "primary"
             ? `
-              px-4.5 py-2
+              px-4.5 py-4
               text-white
               bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700
               shadow-[0_1px_2px_rgba(0,0,0,0.12)]
@@ -71,7 +73,7 @@ const HeaderButton: React.FC<ButtonProps> = ({
               active:translate-y-0 active:scale-[0.995]
             `
             : `
-              px-4 py-[7px]
+              px-4.5 py-4
               text-neutral-700
               bg-white
               border border-neutral-300/80
