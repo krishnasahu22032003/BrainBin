@@ -46,19 +46,6 @@ const ContentSchema = new Schema({
     ref: "User",
     required: true,
   },
-
-
-  // Add optional fields for sharing if needed here too
-  shareId: {
-    type: String,
-    unique: true,
-    sparse: true,
-  },
-  isShared: {
-    type: Boolean,
-    default: false,
-  },
-  shareExpiry: Date,
   accessCount: {
     type: Number,
     default: 0,

@@ -8,13 +8,16 @@ import JWT_USER_SECRET from "./config/config"
 import { nanoid } from "nanoid"
 import cors from "cors";
 import cookieParser from "cookie-parser";
+
 const app = express()
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
   origin: "http://localhost:5173", 
   credentials: true,              
 }));
+
 app.post("/api/v1/signup", async(req, res) => {
     const requiredbody = z.object({
         email: z.email().min(5).max(50),

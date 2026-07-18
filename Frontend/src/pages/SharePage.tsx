@@ -47,7 +47,7 @@ const SharePage = () => {
       </h1>
 
       {/* Same responsive grid as Dashboard */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {contents.map((item) => (
           <div
             key={item._id}
@@ -66,7 +66,7 @@ const SharePage = () => {
         ))}
       </div>
 
-      <div className="mt-12 text-center text-gray-500">
+      <div className="absolute bottom-0 left-0 right-0 p-6 flex justify-center">
         <span className="bg-clip-text text-gray-900 font-semibold">
           Made with BrainBin
         </span>
