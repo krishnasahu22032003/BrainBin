@@ -66,25 +66,27 @@ const ContentSchema = new Schema({
 },{ timestamps: true });
 
 // Share Schema (if you’re using a separate collection)
-const ShareSchema = new Schema({
-  content: { type: String }, // or contentId: { type: mongoose.Schema.Types.ObjectId, ref: 'content' }
-  owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  shareId: {
-    type: String,
-    unique: true,
-    sparse: true,
+const shareSchema = new Schema(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      unique: true,
+    },
+    shareId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    shareExpiry: {
+      type: Date,
+      required: true,
+    },
   },
-  accessCount: {
-    type: Number,
-    default: 0,
-  },
-  shareExpiry: Date,
-  isShared: {
-    type: Boolean,
-    default: false,
-  },
+  { timestamps: true }
+);
 
-});
 ContentSchema.set("toJSON", {
   transform: function (doc, ret: any) {
     delete ret.shareId;
@@ -99,4 +101,4 @@ ContentSchema.set("toJSON", {
 
 export const UserModel = model("User", UserSchema);
 export const ContentModel = model("content", ContentSchema);
-export const ShareModel = model("share", ShareSchema);
+export const ShareModel = model("Share", shareSchema);
