@@ -7,7 +7,7 @@ import Header from "../components/Header"
 import Hero from "../components/Hero"
 import Testimonials from "../components/Testimonials"
 
-const landingpage = () => {
+const Landingpage = () => {
   return (
     <div>
       <Header/>
@@ -22,4 +22,4 @@ const landingpage = () => {
   )
 }
 
-export default landingpage
+export default Landingpage

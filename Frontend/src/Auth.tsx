@@ -29,7 +29,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const { data, status } = useQuery({
     queryKey: ["me"],
     queryFn: async () => {
-      const res = await fetch(`${API}/me`, { credentials: "include" });
+      const res = await fetch(`${API}/api/v1/me`, { credentials: "include" });
       if (!res.ok) return null; 
       return (await res.json()) as { user: { _id: string; email: string } };
     },
@@ -37,7 +37,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   const login = async (email: string, password: string) => {
-    const res = await fetch(`${API}/signin`, {
+    const res = await fetch(`${API}/api/v1/signin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include", 

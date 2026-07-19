@@ -1,8 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-import Landingpage from "./pages/landingpage";
+import Landingpage from "./pages/Landingpage";
 import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
 import SharePage from "./pages/SharePage";

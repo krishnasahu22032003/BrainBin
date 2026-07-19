@@ -30,7 +30,7 @@ export default function AuthPage() {
     setLoading(true);
     try {
       if (mode === "signup") {
-        const res = await fetch(`${API}/signup`, {
+        const res = await fetch(`${API}/api/v1/signup`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",

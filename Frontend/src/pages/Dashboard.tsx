@@ -39,7 +39,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const res = await fetch(`${API}/content`, {
+        const res = await fetch(`${API}/api/v1/content`, {
           credentials: "include",
         });
         const data = await res.json();
@@ -63,7 +63,7 @@ function Dashboard() {
 
     const fetchUser = async () => {
       try {
-        const res = await fetch(`${API}/me`, {
+        const res = await fetch(`${API}/api/v1/me`, {
           credentials: "include",
         });
         const data = await res.json();
@@ -100,7 +100,7 @@ function Dashboard() {
     description: string[];
   }) => {
     try {
-      const res = await fetch(`${API}/content`, {
+      const res = await fetch(`${API}/api/v1/content`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -129,7 +129,7 @@ function Dashboard() {
 
   const handleDeleteContent = async (id: string) => {
     try {
-      const res = await fetch(`${API}/content/${id}`, {
+      const res = await fetch(`${API}/api/v1/content/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -153,7 +153,7 @@ function Dashboard() {
 
   const handleNativeShare = async () => {
     try {
-      const res = await fetch(`${API}/share`, {
+      const res = await fetch(`${API}/api/v1/share`, {
         method: "POST",
         credentials: "include",
       });
