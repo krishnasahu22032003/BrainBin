@@ -10,13 +10,13 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 const app = express()
-
-app.use(express.json());
-app.use(cookieParser());
 app.use(cors({
   origin: "https://brainbin.krishnastack.com", 
   credentials: true,              
 }));
+
+app.use(express.json());
+app.use(cookieParser());
 
 app.get("/api/v1/health/check" , (req , res)=>{
 
@@ -222,4 +222,6 @@ app.get("/api/v1/share/:shareId", async (req, res) => {
 
 app.listen(process.env.PORT || 3003 , ()=>{
   console.log(`App is running on ${process.env.PORT}`)
-})
+});
+
+
